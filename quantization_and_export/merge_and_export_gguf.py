@@ -45,7 +45,8 @@ def convert_and_quantize(merged_dir, model_name, hf_repo):
         "python3", "/content/llama.cpp/convert_hf_to_gguf.py",
         merged_dir,
         "--outtype", "bf16",
-        "--outfile", bf16_gguf
+        "--outfile", bf16_gguf,
+        "--no-mtp"
     ]
     subprocess.run(cmd_convert, check=True)
     print(f"BF16 GGUF created: {bf16_gguf} ({os.path.getsize(bf16_gguf)/(1024**3):.2f} GB)")
