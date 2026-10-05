@@ -1,0 +1,1545 @@
+{
+  "bonsai-8b-prismml": [
+    {
+      "model": "bonsai-8b-prismml",
+      "test_id": "T1_Simple_EN",
+      "category": "Basic Aggregation (EN)",
+      "wall_sec": 1.07,
+      "gen_tps": 387.8,
+      "prefill_tps": 12116.1,
+      "cot_tokens": 0,
+      "total_tokens": 20,
+      "steps_count": 1,
+      "execution_success": true,
+      "execution_message": "1254621382.3999999",
+      "steps": [
+        {
+          "tool_name": "aggregate_tool",
+          "tool_args": {
+            "column": "Total",
+            "operation": "sum"
+          }
+        }
+      ],
+      "raw_output": "{\n    \"steps\": [\n        {\n            \"tool_name\": \"aggregate_tool\",\n            \"tool_args\": {\n                \"column\": \"Total\",\n                \"operation\": \"sum\"\n            }\n        }\n    ]\n}"
+    },
+    {
+      "model": "bonsai-8b-prismml",
+      "test_id": "T2_MultiStep_EN",
+      "category": "Multi-step Filter + Grouping (EN)",
+      "wall_sec": 1.27,
+      "gen_tps": 388.9,
+      "prefill_tps": 12412.7,
+      "cot_tokens": 0,
+      "total_tokens": 57,
+      "steps_count": 3,
+      "execution_success": true,
+      "execution_message": "DataFrame (10 rows x 2 cols)",
+      "steps": [
+        {
+          "tool_name": "filter_tool",
+          "tool_args": {
+            "query_string": "Total > 500"
+          }
+        },
+        {
+          "tool_name": "aggregate_tool",
+          "tool_args": {
+            "column": "Total",
+            "operation": "sum",
+            "by_column": "City",
+            "n": 10
+          }
+        },
+        {
+          "tool_name": "view_tool",
+          "tool_args": {
+            "sort_by": "Total",
+            "ascending": false,
+            "n": 10
+          }
+        }
+      ],
+      "raw_output": "{\n    \"steps\": [\n        {\n            \"tool_name\": \"filter_tool\",\n            \"tool_args\": {\n                \"query_string\": \"Total > 500\"\n            }\n        },\n        {\n            \"tool_name\": \"aggregate_tool\",\n            \"tool_args\": {\n                \"column\": \"Total\",\n                \"ope"
+    },
+    {
+      "model": "bonsai-8b-prismml",
+      "test_id": "T3_Simple_AR",
+      "category": "Basic Aggregation (AR)",
+      "wall_sec": 1.06,
+      "gen_tps": 385.2,
+      "prefill_tps": 12287.5,
+      "cot_tokens": 0,
+      "total_tokens": 23,
+      "steps_count": 1,
+      "execution_success": true,
+      "execution_message": "DataFrame (8 rows x 2 cols)",
+      "steps": [
+        {
+          "tool_name": "aggregate_tool",
+          "tool_args": {
+            "column": "Price",
+            "operation": "mean",
+            "by_column": "Category"
+          }
+        }
+      ],
+      "raw_output": "{\n    \"steps\": [\n        {\n            \"tool_name\": \"aggregate_tool\",\n            \"tool_args\": {\n                \"column\": \"Price\",\n                \"operation\": \"mean\",\n                \"by_column\": \"Category\"\n            }\n        }\n    ]\n}"
+    },
+    {
+      "model": "bonsai-8b-prismml",
+      "test_id": "T4_MultiStep_AR",
+      "category": "Multi-step Filter + Grouping (AR)",
+      "wall_sec": 1.39,
+      "gen_tps": 387.4,
+      "prefill_tps": 12317.8,
+      "cot_tokens": 0,
+      "total_tokens": 71,
+      "steps_count": 4,
+      "execution_success": false,
+      "execution_message": "Step 2 transform error: transform_tool() got multiple values for argument 'action'",
+      "steps": [
+        {
+          "tool_name": "filter_tool",
+          "tool_args": {
+            "query_string": "Quantity > 5"
+          }
+        },
+        {
+          "tool_name": "transform_tool",
+          "tool_args": {
+            "action": "add_column",
+            "new_column": "Total_Based_on_Filter",
+            "formula": "Total"
+          }
+        },
+        {
+          "tool_name": "aggregate_tool",
+          "tool_args": {
+            "column": "Category",
+            "operation": "sum",
+            "by_column": "Category"
+          }
+        },
+        {
+          "tool_name": "view_tool",
+          "tool_args": {
+            "sort_by": "Total_Based_on_Filter",
+            "ascending": true,
+            "n": 10
+          }
+        }
+      ],
+      "raw_output": "{\n    \"steps\": [\n        {\n            \"tool_name\": \"filter_tool\",\n            \"tool_args\": {\n                \"query_string\": \"Quantity > 5\"\n            }\n        },\n        {\n            \"tool_name\": \"transform_tool\",\n            \"tool_args\": {\n                \"action\": \"add_column\",\n              "
+    },
+    {
+      "model": "bonsai-8b-prismml",
+      "test_id": "T5_Chart_Pie_AR",
+      "category": "Pie Chart (AR)",
+      "wall_sec": 1.14,
+      "gen_tps": 384.9,
+      "prefill_tps": 12329.9,
+      "cot_tokens": 0,
+      "total_tokens": 37,
+      "steps_count": 1,
+      "execution_success": false,
+      "execution_message": "Step 1 chart error: cannot insert Category, already exists",
+      "steps": [
+        {
+          "tool_name": "chart_tool",
+          "tool_args": {
+            "chart_type": "bar",
+            "x": "Category",
+            "y": "Total",
+            "title": "نسبة مبيعات كل فئة من المنتجات",
+            "agg": "sum",
+            "color_by": "Category"
+          }
+        }
+      ],
+      "raw_output": "{\n    \"steps\": [\n        {\n            \"tool_name\": \"chart_tool\",\n            \"tool_args\": {\n                \"chart_type\": \"bar\",\n                \"x\": \"Category\",\n                \"y\": \"Total\",\n                \"title\": \"نسبة مبيعات كل فئة من المنتجات\",\n                \"agg\": \"sum\",\n                \"c"
+    },
+    {
+      "model": "bonsai-8b-prismml",
+      "test_id": "T6_Chart_GroupedBar_EN",
+      "category": "Grouped Bar Chart (EN)",
+      "wall_sec": 1.47,
+      "gen_tps": 392.3,
+      "prefill_tps": 12293.6,
+      "cot_tokens": 0,
+      "total_tokens": 91,
+      "steps_count": 4,
+      "execution_success": false,
+      "execution_message": "Step 1 transform error: transform_tool() got multiple values for argument 'action'",
+      "steps": [
+        {
+          "tool_name": "transform_tool",
+          "tool_args": {
+            "action": "add_column",
+            "new_column": "Total_Sales",
+            "formula": "Price * Quantity",
+            "columns": [
+              "Product",
+              "Category",
+              "City"
+            ]
+          }
+        },
+        {
+          "tool_name": "filter_tool",
+          "tool_args": {
+            "query_string": "Status == 'Completed'"
+          }
+        },
+        {
+          "tool_name": "aggregate_tool",
+          "tool_args": {
+            "column": "Total_Sales",
+            "operation": "sum",
+            "by_column": "Category",
+            "n": 10
+          }
+        },
+        {
+          "tool_name": "chart_tool",
+          "tool_args": {
+            "chart_type": "bar",
+            "x": "Category",
+            "y": "Total_Sales",
+            "title": "Total Sales by Category",
+            "color_by": "City"
+          }
+        }
+      ],
+      "raw_output": "{\n    \"steps\": [\n        {\n            \"tool_name\": \"transform_tool\",\n            \"tool_args\": {\n                \"action\": \"add_column\",\n                \"new_column\": \"Total_Sales\",\n                \"formula\": \"Price * Quantity\",\n                \"columns\": [\"Product\", \"Category\", \"City\"]\n            "
+    }
+  ],
+  "qwen3.5-4b-grugspeech-native": [
+    {
+      "model": "qwen3.5-4b-grugspeech-native",
+      "test_id": "T1_Simple_EN",
+      "category": "Basic Aggregation (EN)",
+      "wall_sec": 1.65,
+      "gen_tps": 267.3,
+      "prefill_tps": 10073.8,
+      "cot_tokens": 24,
+      "total_tokens": 41,
+      "steps_count": 0,
+      "execution_success": false,
+      "execution_message": "No steps generated",
+      "steps": [],
+      "raw_output": "[Start thinking]\n\nGoal: get total sales amount.\nColumn for amount: 'Total' (calculated already).\nOperation: sum.\nTool: aggregate_tool with column='Total', operation='sum'.\nDone.\n[End thinking]\n\n<tool_call>\n{\"name\": \"aggregate_tool\", \"arguments\": {\"column\": \"Total\", \"operation\": \"sum\"}}\n</tool_call>"
+    },
+    {
+      "model": "qwen3.5-4b-grugspeech-native",
+      "test_id": "T2_MultiStep_EN",
+      "category": "Multi-step Filter + Grouping (EN)",
+      "wall_sec": 1.87,
+      "gen_tps": 270.0,
+      "prefill_tps": 9918.1,
+      "cot_tokens": 39,
+      "total_tokens": 67,
+      "steps_count": 1,
+      "execution_success": true,
+      "execution_message": "DataFrame (12 rows x 2 cols)",
+      "steps": [
+        {
+          "tool_name": "aggregate_tool",
+          "tool_args": {
+            "column": "Total",
+            "operation": "sum",
+            "by_column": "City"
+          }
+        }
+      ],
+      "raw_output": "[Start thinking]\n\nGoal: filter and group.\n1. Filter: Total > 500.\n2. Aggregate: Group by City, sum Total.\n3. Sort: Descending Total.\n\nTool: aggregate_tool with column 'Total', operation 'sum', by_column 'City'.\nDone.\n[End thinking]\n\n{\n    \"steps\": [\n        {\n            \"tool_name\": \"aggregate_tool"
+    },
+    {
+      "model": "qwen3.5-4b-grugspeech-native",
+      "test_id": "T3_Simple_AR",
+      "category": "Basic Aggregation (AR)",
+      "wall_sec": 1.68,
+      "gen_tps": 268.4,
+      "prefill_tps": 10142.2,
+      "cot_tokens": 27,
+      "total_tokens": 46,
+      "steps_count": 0,
+      "execution_success": false,
+      "execution_message": "No steps generated",
+      "steps": [],
+      "raw_output": "[Start thinking]\n\nIntent: Arabic query asking for average price per product category.\nMatch tool: aggregate_tool.\nColumn: 'Price', Operation: 'mean', Group by: 'Category'.\nDone.\n[End thinking]\n\n<tool_call>\n{\"name\": \"aggregate_tool\", \"arguments\": {\"column\": \"Price\", \"operation\": \"mean\", \"by_column\": "
+    },
+    {
+      "model": "qwen3.5-4b-grugspeech-native",
+      "test_id": "T4_MultiStep_AR",
+      "category": "Multi-step Filter + Grouping (AR)",
+      "wall_sec": 2.26,
+      "gen_tps": 270.7,
+      "prefill_tps": 10313.4,
+      "cot_tokens": 62,
+      "total_tokens": 119,
+      "steps_count": 3,
+      "execution_success": true,
+      "execution_message": "DataFrame (8 rows x 2 cols)",
+      "steps": [
+        {
+          "tool_name": "filter_tool",
+          "tool_args": {
+            "query_string": "`Quantity` > 5"
+          }
+        },
+        {
+          "tool_name": "aggregate_tool",
+          "tool_args": {
+            "column": "Total",
+            "operation": "sum",
+            "by_column": "Category"
+          }
+        },
+        {
+          "tool_name": "view_tool",
+          "tool_args": {
+            "sort_by": "Total",
+            "ascending": false
+          }
+        }
+      ],
+      "raw_output": "[Start thinking]\n\nAnalyze constraints:\n- Filter: Quantity > 5\n- Aggregate: Sum of Total grouped by Category\n- Sort: Descending by Total\n\nMatch tool sequence:\n1. filter_tool: query (`Quantity` > 5)\n2. aggregate_tool: column 'Total', operation 'sum', by_column 'Category'\n3. view_tool: sort by 'Total' "
+    },
+    {
+      "model": "qwen3.5-4b-grugspeech-native",
+      "test_id": "T5_Chart_Pie_AR",
+      "category": "Pie Chart (AR)",
+      "wall_sec": 1.73,
+      "gen_tps": 268.4,
+      "prefill_tps": 10217.1,
+      "cot_tokens": 29,
+      "total_tokens": 52,
+      "steps_count": 1,
+      "execution_success": true,
+      "execution_message": "Chart generated: pie (saved to /content/csv_project/final project/charts/bench_1791237995248.html)",
+      "steps": [
+        {
+          "tool_name": "chart_tool",
+          "tool_args": {
+            "chart_type": "pie",
+            "x": "Category",
+            "y": "Total",
+            "agg": "sum"
+          }
+        }
+      ],
+      "raw_output": "[Start thinking]\n\nIntent: show pie chart of product category sales share.\nColumns: Category (x), Total (value).\nUse chart_tool with chart_type 'pie', x='Category', y='Total', agg='sum'. Done.\n[End thinking]\n\n<tool_call>\n{\"tool_name\": \"chart_tool\", \"tool_args\": {\"chart_type\": \"pie\", \"x\": \"Category\", "
+    },
+    {
+      "model": "qwen3.5-4b-grugspeech-native",
+      "test_id": "T6_Chart_GroupedBar_EN",
+      "category": "Grouped Bar Chart (EN)",
+      "wall_sec": 1.88,
+      "gen_tps": 270.1,
+      "prefill_tps": 10206.0,
+      "cot_tokens": 49,
+      "total_tokens": 71,
+      "steps_count": 1,
+      "execution_success": false,
+      "execution_message": "Step 1 chart error: 'sum(Total)'",
+      "steps": [
+        {
+          "tool_name": "chart_tool",
+          "tool_args": {
+            "chart_type": "bar",
+            "x": "Category",
+            "y": "sum(Total)",
+            "color_by": "City"
+          }
+        }
+      ],
+      "raw_output": "[Start thinking]\n\nGoal: create grouped bar chart (sales by category grouped by city).\nData: Order_ID, Customer, Product, Category, Price, Quantity, Discount_Percent, Total, City, Payment_Method, Status, Order_Date.\nCalculation: sum(Total) grouped by [Category, City].\nChart tool: type 'bar', x='Categ"
+    }
+  ],
+  "qwen3.5-4b-base": [
+    {
+      "model": "qwen3.5-4b-base",
+      "test_id": "T1_Simple_EN",
+      "category": "Basic Aggregation (EN)",
+      "wall_sec": 2.2,
+      "gen_tps": 267.0,
+      "prefill_tps": 9729.2,
+      "cot_tokens": 130,
+      "total_tokens": 158,
+      "steps_count": 1,
+      "execution_success": true,
+      "execution_message": "1254621382.3999999",
+      "steps": [
+        {
+          "tool_name": "aggregate_tool",
+          "tool_args": {
+            "column": "Total",
+            "operation": "sum"
+          }
+        }
+      ],
+      "raw_output": "[Start thinking]\n\nThe user is asking for the total sales amount. Looking at the dataframe columns, I can see there's a 'Total' column which represents the total amount for each order. To get the total sales amount, I need to sum up all the values in the 'Total' column.\n\nI can use either:\n1. `aggrega"
+    },
+    {
+      "model": "qwen3.5-4b-base",
+      "test_id": "T2_MultiStep_EN",
+      "category": "Multi-step Filter + Grouping (EN)",
+      "wall_sec": 2.35,
+      "gen_tps": 266.7,
+      "prefill_tps": 9869.9,
+      "cot_tokens": 0,
+      "total_tokens": 222,
+      "steps_count": 0,
+      "execution_success": false,
+      "execution_message": "No steps generated",
+      "steps": [],
+      "raw_output": "[Start thinking]\n\nThe user wants to:\n1. Filter rows where Total > 500\n2. Group by City\n3. Show the sum of Total for each city\n4. Sort from highest to lowest\n\nThis requires:\n1. First filter the data using filter_tool with query: `Total > 500`\n2. Then use aggregate_tool to group by City and sum Total\n"
+    },
+    {
+      "model": "qwen3.5-4b-base",
+      "test_id": "T3_Simple_AR",
+      "category": "Basic Aggregation (AR)",
+      "wall_sec": 2.31,
+      "gen_tps": 267.0,
+      "prefill_tps": 9724.6,
+      "cot_tokens": 163,
+      "total_tokens": 195,
+      "steps_count": 1,
+      "execution_success": true,
+      "execution_message": "DataFrame (8 rows x 2 cols)",
+      "steps": [
+        {
+          "tool_name": "aggregate_tool",
+          "tool_args": {
+            "column": "Price",
+            "operation": "mean",
+            "by_column": "Category"
+          }
+        }
+      ],
+      "raw_output": "[Start thinking]\n\nThe user is asking in Arabic to calculate the average price for each product category. This translates to: \"Calculate the average price for each product category.\"\n\nThis is a calculation that requires grouping by Category and calculating the mean of the Price column.\n\nLooking at th"
+    },
+    {
+      "model": "qwen3.5-4b-base",
+      "test_id": "T4_MultiStep_AR",
+      "category": "Multi-step Filter + Grouping (AR)",
+      "wall_sec": 2.35,
+      "gen_tps": 266.8,
+      "prefill_tps": 9945.2,
+      "cot_tokens": 0,
+      "total_tokens": 237,
+      "steps_count": 0,
+      "execution_success": false,
+      "execution_message": "No steps generated",
+      "steps": [],
+      "raw_output": "[Start thinking]\n\nThe user is asking me to:\n1. Filter rows where quantity > 5\n2. Calculate total sales (Total) for each category\n3. Sort the results from highest to lowest\n\nLet me break this down into steps:\n\n1. First, I need to filter the rows where Quantity > 5\n2. Then I need to calculate the sum "
+    },
+    {
+      "model": "qwen3.5-4b-base",
+      "test_id": "T5_Chart_Pie_AR",
+      "category": "Pie Chart (AR)",
+      "wall_sec": 2.35,
+      "gen_tps": 267.5,
+      "prefill_tps": 9810.8,
+      "cot_tokens": 204,
+      "total_tokens": 226,
+      "steps_count": 0,
+      "execution_success": false,
+      "execution_message": "No steps generated",
+      "steps": [],
+      "raw_output": "[Start thinking]\n\nThe user is asking for a chart that shows the sales ratio/percentage of each product category (فئة المنتجات). This is in Arabic.\n\nKey requirements:\n- They want to visualize sales by category\n- This is a chart/visualization request\n- Should show the distribution/ratio of sales acros"
+    },
+    {
+      "model": "qwen3.5-4b-base",
+      "test_id": "T6_Chart_GroupedBar_EN",
+      "category": "Grouped Bar Chart (EN)",
+      "wall_sec": 2.34,
+      "gen_tps": 268.0,
+      "prefill_tps": 9789.9,
+      "cot_tokens": 0,
+      "total_tokens": 197,
+      "steps_count": 0,
+      "execution_success": false,
+      "execution_message": "No steps generated",
+      "steps": [],
+      "raw_output": "[Start thinking]\n\nThe user wants to create a grouped bar chart showing total sales for each category, grouped by city.\n\nLooking at the available tools:\n- chart_tool can create charts with x, y, color_by, and agg parameters\n- The user wants:\n  - X-axis: Category (or City)\n  - Y-axis: Total Sales (Tot"
+    }
+  ],
+  "gemma-4-e2b-grugspeech-native": [
+    {
+      "model": "gemma-4-e2b-grugspeech-native",
+      "test_id": "T1_Simple_EN",
+      "category": "Basic Aggregation (EN)",
+      "wall_sec": 1.99,
+      "gen_tps": 305.6,
+      "prefill_tps": 11303.9,
+      "cot_tokens": 18,
+      "total_tokens": 61,
+      "steps_count": 1,
+      "execution_success": true,
+      "execution_message": "1254621382.3999999",
+      "steps": [
+        {
+          "tool_name": "aggregate_tool",
+          "tool_args": {
+            "column": "Total",
+            "operation": "sum"
+          }
+        }
+      ],
+      "raw_output": "[Start thinking]\n\nAnalyze user request.\nDetermine steps to calculate total sales.\nExecute steps.\nDone.\n1.\n<think>\nGoal: calculate sum of 'Total' column.\nTool: aggregate_tool.\nAction: 'sum' on 'Total' column.\nDone.\n</think>\n{\n    \"steps\": [\n        { \"tool_name\": \"aggregate_tool\", \"tool_args\": { \"col"
+    },
+    {
+      "model": "gemma-4-e2b-grugspeech-native",
+      "test_id": "T2_MultiStep_EN",
+      "category": "Multi-step Filter + Grouping (EN)",
+      "wall_sec": 2.45,
+      "gen_tps": 309.5,
+      "prefill_tps": 11524.1,
+      "cot_tokens": 127,
+      "total_tokens": 172,
+      "steps_count": 0,
+      "execution_success": false,
+      "execution_message": "No steps generated",
+      "steps": [],
+      "raw_output": "[Start thinking]\n\nGoal: Analyze the user's request, plan the tool steps, and then execute the plan.\n\n1. **Analyze the Request**: The user wants to filter for orders > 500, group by city, and calculate the sum of the 'Total'.\n2. **Plan Steps (Grug Speech)**:\n    * Filter > 500.\n    * Group by city.\n "
+    },
+    {
+      "model": "gemma-4-e2b-grugspeech-native",
+      "test_id": "T3_Simple_AR",
+      "category": "Basic Aggregation (AR)",
+      "wall_sec": 2.14,
+      "gen_tps": 308.3,
+      "prefill_tps": 11365.4,
+      "cot_tokens": 16,
+      "total_tokens": 83,
+      "steps_count": 1,
+      "execution_success": true,
+      "execution_message": "DataFrame (8 rows x 2 cols)",
+      "steps": [
+        {
+          "tool_name": "aggregate_tool",
+          "tool_args": {
+            "column": "Price",
+            "operation": "mean",
+            "by_column": "Category"
+          }
+        }
+      ],
+      "raw_output": "[Start thinking]\n\nGoal: Calculate the average price per product category.\nPlan:\n1. Use `aggregate_tool` to calculate the mean of `Price` grouped by `Category`.\n2. Output results.\nEnd of turn.\n[End thinking]\n\n<think>\nGoal: calculate average price per category\nTool: aggregate_tool\nArgs: column='Price'"
+    },
+    {
+      "model": "gemma-4-e2b-grugspeech-native",
+      "test_id": "T4_MultiStep_AR",
+      "category": "Multi-step Filter + Grouping (AR)",
+      "wall_sec": 2.46,
+      "gen_tps": 308.0,
+      "prefill_tps": 11453.4,
+      "cot_tokens": 156,
+      "total_tokens": 172,
+      "steps_count": 0,
+      "execution_success": false,
+      "execution_message": "No steps generated",
+      "steps": [],
+      "raw_output": "[Start thinking]\n\nThinking Process:\n\n1. **Analyze the Request:**\n    - Goal: Filter rows where 'Quantity' > 5, then group by 'Category' and sum 'Total' (or 'Total' or 'Price' * 'Quantity') to get the total sales per category, sorted descending.\n    - Tools available: `filter_tool`, `aggregate_tool`,"
+    },
+    {
+      "model": "gemma-4-e2b-grugspeech-native",
+      "test_id": "T5_Chart_Pie_AR",
+      "category": "Pie Chart (AR)",
+      "wall_sec": 2.32,
+      "gen_tps": 308.7,
+      "prefill_tps": 11297.0,
+      "cot_tokens": 18,
+      "total_tokens": 117,
+      "steps_count": 1,
+      "execution_success": true,
+      "execution_message": "Chart generated: pie (saved to /content/csv_project/final project/charts/bench_1791238025298.html)",
+      "steps": [
+        {
+          "tool_name": "chart_tool",
+          "tool_args": {
+            "chart_type": "pie",
+            "x": "Category",
+            "y": "Total",
+            "color_by": "Category",
+            "agg": "sum",
+            "output_path": "sales_by_category.html"
+          }
+        }
+      ],
+      "raw_output": "[Start thinking]\n\nGoal:\n1. Identify user intent.\n2. Formulate plan in grug speech.\n3. Execute plan using tools.\n\nUser asked for a pie chart of sales percentages by product category.\n- Match intent to tool (chart_tool).\n- Get exact column names and apply filter/grouping if needed.\n- Done.\n[End thinki"
+    },
+    {
+      "model": "gemma-4-e2b-grugspeech-native",
+      "test_id": "T6_Chart_GroupedBar_EN",
+      "category": "Grouped Bar Chart (EN)",
+      "wall_sec": 2.45,
+      "gen_tps": 310.0,
+      "prefill_tps": 11314.1,
+      "cot_tokens": 74,
+      "total_tokens": 193,
+      "steps_count": 1,
+      "execution_success": true,
+      "execution_message": "DataFrame (12 rows x 2 cols)",
+      "steps": [
+        {
+          "tool_name": "aggregate_tool",
+          "tool_args": {
+            "column": "Category",
+            "operation": "sum",
+            "by_column": "City"
+          }
+        }
+      ],
+      "raw_output": "[Start thinking]\n\nGoal: create a grouped bar chart showing total sales for each category, grouped by city\nExtract relevant columns: Category, City, Total\nAggregate Total sales grouped by Category and City\nVisualize sales per category and city\nCreate a bar chart with City on the X axis, Category on t"
+    }
+  ],
+  "gemma-4-e2b-base": [
+    {
+      "model": "gemma-4-e2b-base",
+      "test_id": "T1_Simple_EN",
+      "category": "Basic Aggregation (EN)",
+      "wall_sec": 2.44,
+      "gen_tps": 319.9,
+      "prefill_tps": 8398.6,
+      "cot_tokens": 118,
+      "total_tokens": 146,
+      "steps_count": 1,
+      "execution_success": true,
+      "execution_message": "1254621382.3999999",
+      "steps": [
+        {
+          "tool_name": "aggregate_tool",
+          "tool_args": {
+            "column": "Total",
+            "operation": "sum"
+          }
+        }
+      ],
+      "raw_output": "[Start thinking]\n\nThe user wants to know the \"total sales amount\".\n\"Total sales amount\" typically implies calculating the sum of the 'Total' column in the dataset.\n\n1.  **Analyze the request:** \"What is the total sales amount?\"\n2.  **Identify the goal:** Calculate the sum of the 'Total' column.\n3.  "
+    },
+    {
+      "model": "gemma-4-e2b-base",
+      "test_id": "T2_MultiStep_EN",
+      "category": "Multi-step Filter + Grouping (EN)",
+      "wall_sec": 2.47,
+      "gen_tps": 319.4,
+      "prefill_tps": 8510.5,
+      "cot_tokens": 0,
+      "total_tokens": 185,
+      "steps_count": 0,
+      "execution_success": false,
+      "execution_message": "No steps generated",
+      "steps": [],
+      "raw_output": "[Start thinking]\n\nThe user wants to perform the following steps on the provided DataFrame:\n1. Filter rows where 'Total' is greater than 500.\n2. Group the filtered data by 'City'.\n3. Calculate the sum of 'Total' for each city.\n4. Sort the results from highest to lowest sum.\n\nI need to use the availab"
+    },
+    {
+      "model": "gemma-4-e2b-base",
+      "test_id": "T3_Simple_AR",
+      "category": "Basic Aggregation (AR)",
+      "wall_sec": 2.43,
+      "gen_tps": 319.5,
+      "prefill_tps": 8486.2,
+      "cot_tokens": 114,
+      "total_tokens": 145,
+      "steps_count": 1,
+      "execution_success": true,
+      "execution_message": "DataFrame (8 rows x 2 cols)",
+      "steps": [
+        {
+          "tool_name": "aggregate_tool",
+          "tool_args": {
+            "column": "Price",
+            "operation": "mean",
+            "by_column": "Category"
+          }
+        }
+      ],
+      "raw_output": "[Start thinking]\n\nThe user wants to calculate the average price for each product category.\nThis requires grouping the data by 'Category' and calculating the mean of the 'Price' column.\n\n1.  **Goal:** Calculate the average price ('Price') grouped by product category ('Category').\n2.  **Tool Selection"
+    },
+    {
+      "model": "gemma-4-e2b-base",
+      "test_id": "T4_MultiStep_AR",
+      "category": "Multi-step Filter + Grouping (AR)",
+      "wall_sec": 2.47,
+      "gen_tps": 319.9,
+      "prefill_tps": 8571.6,
+      "cot_tokens": 0,
+      "total_tokens": 159,
+      "steps_count": 0,
+      "execution_success": false,
+      "execution_message": "No steps generated",
+      "steps": [],
+      "raw_output": "[Start thinking]\n\nThe user wants to perform the following sequence of operations on the provided data:\n1.  **Filter:** Select rows where 'Quantity' is greater than 5.\n2.  **Aggregate:** Calculate the sum of 'Total' (sales) grouped by 'Category'.\n3.  **Sort/View:** Order the results by the calculated"
+    },
+    {
+      "model": "gemma-4-e2b-base",
+      "test_id": "T5_Chart_Pie_AR",
+      "category": "Pie Chart (AR)",
+      "wall_sec": 2.48,
+      "gen_tps": 319.6,
+      "prefill_tps": 8439.6,
+      "cot_tokens": 0,
+      "total_tokens": 188,
+      "steps_count": 0,
+      "execution_success": false,
+      "execution_message": "No steps generated",
+      "steps": [],
+      "raw_output": "[Start thinking]\n\nThe user wants a chart that shows the percentage of sales for each product category.\n\n1.  **Identify the Goal:** Create a chart visualizing the distribution of sales across different product categories. Specifically, a percentage chart (likely a pie chart or a bar chart showing pro"
+    },
+    {
+      "model": "gemma-4-e2b-base",
+      "test_id": "T6_Chart_GroupedBar_EN",
+      "category": "Grouped Bar Chart (EN)",
+      "wall_sec": 2.47,
+      "gen_tps": 319.8,
+      "prefill_tps": 8479.9,
+      "cot_tokens": 0,
+      "total_tokens": 196,
+      "steps_count": 0,
+      "execution_success": false,
+      "execution_message": "No steps generated",
+      "steps": [],
+      "raw_output": "[Start thinking]\n\nThe user wants to create a grouped bar chart showing total sales for each category, grouped by city.\n\n1.  **Identify the goal:** Create a grouped bar chart.\n2.  **Determine the required data:** Total sales (sum of 'Total' column) grouped by 'Category' and 'City'.\n3.  **Select the a"
+    }
+  ],
+  "minicpm5-2b-grugspeech-native": [
+    {
+      "model": "minicpm5-2b-grugspeech-native",
+      "test_id": "T1_Simple_EN",
+      "category": "Basic Aggregation (EN)",
+      "wall_sec": 1.05,
+      "gen_tps": 376.4,
+      "prefill_tps": 18587.8,
+      "cot_tokens": 24,
+      "total_tokens": 41,
+      "steps_count": 0,
+      "execution_success": false,
+      "execution_message": "No steps generated",
+      "steps": [],
+      "raw_output": "[Start thinking]\n\nGoal: process tool instruction.\nParse tool params: match schema.\nExtract values: pull values from input schema.\nFormat: JSON.\nDone.\n[End thinking]\n\n```json\n{\"name\": \"aggregate_tool\", \"arguments\": {\"column\": \"Total\", \"operation\": \"sum\"}}\n```"
+    },
+    {
+      "model": "minicpm5-2b-grugspeech-native",
+      "test_id": "T2_MultiStep_EN",
+      "category": "Multi-step Filter + Grouping (EN)",
+      "wall_sec": 1.03,
+      "gen_tps": 375.3,
+      "prefill_tps": 19013.7,
+      "cot_tokens": 19,
+      "total_tokens": 33,
+      "steps_count": 0,
+      "execution_success": false,
+      "execution_message": "No steps generated",
+      "steps": [],
+      "raw_output": "[Start thinking]\n\nGoal: process tool instruction.\nAnalyze constraints: match intent, exact columns, tool name, args.\nDispatch tool.\n[End thinking]\n\n{\"name\": \"filter_tool\", \"args\": {\"query_string\": \"`Total` > 500\"}}"
+    },
+    {
+      "model": "minicpm5-2b-grugspeech-native",
+      "test_id": "T3_Simple_AR",
+      "category": "Basic Aggregation (AR)",
+      "wall_sec": 1.21,
+      "gen_tps": 381.7,
+      "prefill_tps": 19047.5,
+      "cot_tokens": 48,
+      "total_tokens": 79,
+      "steps_count": 1,
+      "execution_success": true,
+      "execution_message": "DataFrame (8 rows x 2 cols)",
+      "steps": [
+        {
+          "tool_name": "aggregate_tool",
+          "tool_args": {
+            "column": "Price",
+            "operation": "mean",
+            "by_column": "Category"
+          }
+        }
+      ],
+      "raw_output": "[Start thinking]\n\nGiven the user's intent to calculate the average (mean) price for each product category, I need to apply the `aggregate_tool` with the following parameters: `column='Price'`, `operation='mean'`, and `by_column='Category'`. This will return the average price for each category.\n[End "
+    },
+    {
+      "model": "minicpm5-2b-grugspeech-native",
+      "test_id": "T4_MultiStep_AR",
+      "category": "Multi-step Filter + Grouping (AR)",
+      "wall_sec": 1.28,
+      "gen_tps": 384.8,
+      "prefill_tps": 19333.2,
+      "cot_tokens": 46,
+      "total_tokens": 92,
+      "steps_count": 2,
+      "execution_success": true,
+      "execution_message": "DataFrame (8 rows x 2 cols)",
+      "steps": [
+        {
+          "tool_name": "filter_tool",
+          "tool_args": {
+            "query_string": "`Quantity` > 5"
+          }
+        },
+        {
+          "tool_name": "aggregate_tool",
+          "tool_args": {
+            "column": "Price",
+            "operation": "sum",
+            "by_column": "Category"
+          }
+        }
+      ],
+      "raw_output": "[Start thinking]\n\nReasoning: The user wants to filter rows where Quantity > 5, group by Category, sum Price, and sort descending.\nStep 1: Filter where Quantity > 5.\nStep 2: Group by Category and sum Price.\nDone.\n</system_thought>\n[End thinking]\n\n```json\n{\n  \"steps\": [\n    {\n      \"tool_name\": \"filte"
+    },
+    {
+      "model": "minicpm5-2b-grugspeech-native",
+      "test_id": "T5_Chart_Pie_AR",
+      "category": "Pie Chart (AR)",
+      "wall_sec": 1.23,
+      "gen_tps": 381.2,
+      "prefill_tps": 18887.7,
+      "cot_tokens": 79,
+      "total_tokens": 87,
+      "steps_count": 0,
+      "execution_success": false,
+      "execution_message": "No steps generated",
+      "steps": [],
+      "raw_output": "[Start thinking]\n\nReason inside grug speech (English grug brain: concise, dense, telegraphic telegraphic speech).\n\nTask: User wants to visualize sales data by product category.\nActions:\n1. `view_tool` - Check if table has `Category` column. Yes.\n2. `chart_tool` - Create 'pie' chart with `Category` a"
+    },
+    {
+      "model": "minicpm5-2b-grugspeech-native",
+      "test_id": "T6_Chart_GroupedBar_EN",
+      "category": "Grouped Bar Chart (EN)",
+      "wall_sec": 1.15,
+      "gen_tps": 380.8,
+      "prefill_tps": 18729.8,
+      "cot_tokens": 23,
+      "total_tokens": 53,
+      "steps_count": 0,
+      "execution_success": false,
+      "execution_message": "No steps generated",
+      "steps": [],
+      "raw_output": "[Start thinking]\n\nGrug speech: analyze intent -> grouped bar chart -> chart_tool.\nMatch schema: chart_type=bar, color_by='Category', x='City', y='Total'.\nDone. Done.\n[End thinking]\n\n{'steps': [{'tool_name': 'chart_tool', 'tool_args': {'chart_type': 'bar', 'x': 'City', 'y': 'Total', 'color_by': 'Cate"
+    }
+  ],
+  "nanbeige4.2-3b-grugspeech-native": [
+    {
+      "model": "nanbeige4.2-3b-grugspeech-native",
+      "test_id": "T1_Simple_EN",
+      "category": "Basic Aggregation (EN)",
+      "wall_sec": 2.45,
+      "gen_tps": 206.3,
+      "prefill_tps": 11178.9,
+      "cot_tokens": 0,
+      "total_tokens": 215,
+      "steps_count": 0,
+      "execution_success": false,
+      "execution_message": "No steps generated",
+      "steps": [],
+      "raw_output": "[Start thinking]\n\nWe are asked: \"What is the total sales amount?\" \nLooking at the dataframe columns, we have a column named 'Total' which likely represents the total sales amount for each order. \nHowever, note that the sample rows show:\n  Row 1: Total = 4526.36\n  Row 2: Total = 4714.6\n\nBut wait, the"
+    },
+    {
+      "model": "nanbeige4.2-3b-grugspeech-native",
+      "test_id": "T2_MultiStep_EN",
+      "category": "Multi-step Filter + Grouping (EN)",
+      "wall_sec": 2.45,
+      "gen_tps": 206.5,
+      "prefill_tps": 11306.0,
+      "cot_tokens": 0,
+      "total_tokens": 236,
+      "steps_count": 0,
+      "execution_success": false,
+      "execution_message": "No steps generated",
+      "steps": [],
+      "raw_output": "[Start thinking]\n\nWe need to break down the user query into steps using the available tools. The query: \"Filter rows where Total is greater than 500, then group by City and show the sum of Total for each city, sorted from highest to lowest\".\n\nWe have tools: filter_tool, aggregate_tool, and possibly "
+    },
+    {
+      "model": "nanbeige4.2-3b-grugspeech-native",
+      "test_id": "T3_Simple_AR",
+      "category": "Basic Aggregation (AR)",
+      "wall_sec": 2.43,
+      "gen_tps": 209.9,
+      "prefill_tps": 11272.7,
+      "cot_tokens": 0,
+      "total_tokens": 213,
+      "steps_count": 0,
+      "execution_success": false,
+      "execution_message": "No steps generated",
+      "steps": [],
+      "raw_output": "[Start thinking]\n\nWe need to compute the average price for each category. The user query is in Arabic: \"احسب متوسط السعر لكل فئة من المنتجات\" which translates to \"Calculate the average price for each category of products\".\n\nWe have a dataframe with columns including 'Category' and 'Price'. We need t"
+    },
+    {
+      "model": "nanbeige4.2-3b-grugspeech-native",
+      "test_id": "T4_MultiStep_AR",
+      "category": "Multi-step Filter + Grouping (AR)",
+      "wall_sec": 2.43,
+      "gen_tps": 209.1,
+      "prefill_tps": 11317.1,
+      "cot_tokens": 0,
+      "total_tokens": 189,
+      "steps_count": 0,
+      "execution_success": false,
+      "execution_message": "No steps generated",
+      "steps": [],
+      "raw_output": "[Start thinking]\n\nWe need to break down the user query into steps. The user is asking in Arabic:\n\n\"فلتر الصفوف اللي فيها الكمية أكبر من 5، وبعدين احسب مجموع المبيعات لكل فئة، وترتيب النتيجة من الأعلى للأقل\"\n\nTranslation: \"Filter rows where quantity is greater than 5, then calculate the sum of sales "
+    },
+    {
+      "model": "nanbeige4.2-3b-grugspeech-native",
+      "test_id": "T5_Chart_Pie_AR",
+      "category": "Pie Chart (AR)",
+      "wall_sec": 2.43,
+      "gen_tps": 209.3,
+      "prefill_tps": 11158.5,
+      "cot_tokens": 0,
+      "total_tokens": 200,
+      "steps_count": 0,
+      "execution_success": false,
+      "execution_message": "No steps generated",
+      "steps": [],
+      "raw_output": "[Start thinking]\n\nWe are given a user query in Arabic: \"عايز باي شارت يوضح نسبة مبيعات كل فئة من المنتجات\" which translates to \"I want a chart that clarifies the sales percentage for each product category.\"\n\n Steps to solve:\n 1. Understand the requirement: We need to create a chart showing the sales"
+    },
+    {
+      "model": "nanbeige4.2-3b-grugspeech-native",
+      "test_id": "T6_Chart_GroupedBar_EN",
+      "category": "Grouped Bar Chart (EN)",
+      "wall_sec": 2.42,
+      "gen_tps": 210.2,
+      "prefill_tps": 11336.8,
+      "cot_tokens": 0,
+      "total_tokens": 249,
+      "steps_count": 0,
+      "execution_success": false,
+      "execution_message": "No steps generated",
+      "steps": [],
+      "raw_output": "[Start thinking]\n\nWe are asked to create a grouped bar chart showing total sales for each category, grouped by city.\n Steps:\n 1. We need to aggregate the data by Category and City to get the total sales (which is the 'Total' column) for each group.\n 2. Then, we will use the chart_tool to create a gr"
+    }
+  ],
+  "qwen3.5-2b-grugspeech-native": [
+    {
+      "model": "qwen3.5-2b-grugspeech-native",
+      "test_id": "T1_Simple_EN",
+      "category": "Basic Aggregation (EN)",
+      "wall_sec": 1.35,
+      "gen_tps": 454.7,
+      "prefill_tps": 17042.6,
+      "cot_tokens": 58,
+      "total_tokens": 80,
+      "steps_count": 0,
+      "execution_success": false,
+      "execution_message": "No steps generated",
+      "steps": [],
+      "raw_output": "[Start thinking]\n\nThe user wants to know the total sales amount from the data.\n\nAvailable tools:\n- aggregate_tool: can compute sum on 'Total' column\n- view_tool: could view all rows but aggregate is more direct\n- filter_tool: not needed here\n\nBest match: aggregate_tool with column='Total', operation"
+    },
+    {
+      "model": "qwen3.5-2b-grugspeech-native",
+      "test_id": "T2_MultiStep_EN",
+      "category": "Multi-step Filter + Grouping (EN)",
+      "wall_sec": 1.6,
+      "gen_tps": 459.7,
+      "prefill_tps": 17314.6,
+      "cot_tokens": 145,
+      "total_tokens": 179,
+      "steps_count": 0,
+      "execution_success": false,
+      "execution_message": "No steps generated",
+      "steps": [],
+      "raw_output": "[Start thinking]\n\nThe user wants to filter rows where Total > 500, then group by City and show sum of Total for each city, sorted highest to lowest.\n\nAvailable tools:\n- filter_tool: perfect match for \"filter rows where Total is greater than 500\"\n- aggregate_tool: perfect match for \"sum of Total for "
+    },
+    {
+      "model": "qwen3.5-2b-grugspeech-native",
+      "test_id": "T3_Simple_AR",
+      "category": "Basic Aggregation (AR)",
+      "wall_sec": 1.61,
+      "gen_tps": 456.9,
+      "prefill_tps": 16775.8,
+      "cot_tokens": 48,
+      "total_tokens": 94,
+      "steps_count": 0,
+      "execution_success": false,
+      "execution_message": "No steps generated",
+      "steps": [],
+      "raw_output": "[Start thinking]\n\nThe user wants to calculate the average price per product category.\n\nLooking at available tools, I should use `aggregate_tool` with column='Price' and operation='mean'. This will calculate the mean of the Price column, which directly answers the query.\n[End thinking]\n\nTask: calcula"
+    },
+    {
+      "model": "qwen3.5-2b-grugspeech-native",
+      "test_id": "T4_MultiStep_AR",
+      "category": "Multi-step Filter + Grouping (AR)",
+      "wall_sec": 1.59,
+      "gen_tps": 459.4,
+      "prefill_tps": 17261.1,
+      "cot_tokens": 123,
+      "total_tokens": 196,
+      "steps_count": 0,
+      "execution_success": false,
+      "execution_message": "No steps generated",
+      "steps": [],
+      "raw_output": "[Start thinking]\n\nThe user wants to filter rows where the quantity is greater than 5, then calculate the total sales per category, and finally sort by the total in descending order.\n\nLet me break this down:\n1. Filter rows where Quantity > 5 using filter_tool\n2. Use aggregate_tool to calculate sum of"
+    },
+    {
+      "model": "qwen3.5-2b-grugspeech-native",
+      "test_id": "T5_Chart_Pie_AR",
+      "category": "Pie Chart (AR)",
+      "wall_sec": 1.84,
+      "gen_tps": 459.4,
+      "prefill_tps": 16835.5,
+      "cot_tokens": 159,
+      "total_tokens": 204,
+      "steps_count": 0,
+      "execution_success": false,
+      "execution_message": "No steps generated",
+      "steps": [],
+      "raw_output": "[Start thinking]\n\nThe user wants a chart showing the percentage of sales per product category.\n\nLooking at the available tools, the most appropriate is `chart_tool` with `chart_type: 'pie'` since it directly visualizes a percentage distribution like categories of sales. \n\nAlternatively, I could use "
+    },
+    {
+      "model": "qwen3.5-2b-grugspeech-native",
+      "test_id": "T6_Chart_GroupedBar_EN",
+      "category": "Grouped Bar Chart (EN)",
+      "wall_sec": 1.62,
+      "gen_tps": 460.4,
+      "prefill_tps": 17141.1,
+      "cot_tokens": 101,
+      "total_tokens": 163,
+      "steps_count": 0,
+      "execution_success": false,
+      "execution_message": "No steps generated",
+      "steps": [],
+      "raw_output": "[Start thinking]\n\nThe user wants to create a grouped bar chart showing total sales for each category, grouped by city.\n\nAvailable tools:\n- chart_tool: perfect match for this request (bar chart, color_by='category', agg='sum')\n- Other tools not relevant\n\nKey details for chart_tool:\n- chart_type: 'bar"
+    }
+  ],
+  "qwen3.5-2b-base": [
+    {
+      "model": "qwen3.5-2b-base",
+      "test_id": "T1_Simple_EN",
+      "category": "Basic Aggregation (EN)",
+      "wall_sec": 1.7,
+      "gen_tps": 458.2,
+      "prefill_tps": 15871.6,
+      "cot_tokens": 93,
+      "total_tokens": 127,
+      "steps_count": 1,
+      "execution_success": true,
+      "execution_message": "1254621382.3999999",
+      "steps": [
+        {
+          "tool_name": "aggregate_tool",
+          "tool_args": {
+            "column": "Total",
+            "operation": "sum",
+            "by_column": null,
+            "n": null
+          }
+        }
+      ],
+      "raw_output": "[Start thinking]\n\nThe user wants to know the total sales amount from the dataframe. I need to use the aggregate_tool with the \"sum\" operation on the \"Total\" column.\n\nLet me plan the execution steps:\n\n1. First, I'll use the aggregate_tool to sum the Total column to get the total sales amount\n2. The c"
+    },
+    {
+      "model": "qwen3.5-2b-base",
+      "test_id": "T2_MultiStep_EN",
+      "category": "Multi-step Filter + Grouping (EN)",
+      "wall_sec": 1.9,
+      "gen_tps": 458.3,
+      "prefill_tps": 16016.2,
+      "cot_tokens": 0,
+      "total_tokens": 245,
+      "steps_count": 0,
+      "execution_success": false,
+      "execution_message": "No steps generated",
+      "steps": [],
+      "raw_output": "[Start thinking]\n\nThe user wants me to:\n1. Filter rows where Total > 500\n2. Group by City\n3. Show the sum of Total for each city\n4. Sort from highest to lowest\n\nI need to use the available tools to accomplish this. Let me plan the steps:\n\n1. First, I need to filter rows where Total > 500 using the f"
+    },
+    {
+      "model": "qwen3.5-2b-base",
+      "test_id": "T3_Simple_AR",
+      "category": "Basic Aggregation (AR)",
+      "wall_sec": 1.7,
+      "gen_tps": 458.6,
+      "prefill_tps": 15974.2,
+      "cot_tokens": 219,
+      "total_tokens": 228,
+      "steps_count": 0,
+      "execution_success": false,
+      "execution_message": "No steps generated",
+      "steps": [],
+      "raw_output": "[Start thinking]\n\nThe user is asking me to calculate the average price for each product category (أحسب متوسط السعر لكل فئة من المنتجات). This is a data analysis task in Arabic.\n\nLooking at the available tools:\n1. `aggregate_tool` - This can calculate mean (mean) for a column and optionally group by "
+    },
+    {
+      "model": "qwen3.5-2b-base",
+      "test_id": "T4_MultiStep_AR",
+      "category": "Multi-step Filter + Grouping (AR)",
+      "wall_sec": 1.89,
+      "gen_tps": 460.9,
+      "prefill_tps": 16116.9,
+      "cot_tokens": 0,
+      "total_tokens": 244,
+      "steps_count": 0,
+      "execution_success": false,
+      "execution_message": "No steps generated",
+      "steps": [],
+      "raw_output": "[Start thinking]\n\nThe user wants to:\n1. Filter rows where Quantity is greater than 5\n2. Calculate the total sales (Total) for each category\n3. Sort the results from highest to lowest\n\nLet me break this down into steps:\n\nStep 1: Filter rows where Quantity > 5 using filter_tool\nStep 2: Group by catego"
+    },
+    {
+      "model": "qwen3.5-2b-base",
+      "test_id": "T5_Chart_Pie_AR",
+      "category": "Pie Chart (AR)",
+      "wall_sec": 1.69,
+      "gen_tps": 458.1,
+      "prefill_tps": 15922.4,
+      "cot_tokens": 0,
+      "total_tokens": 252,
+      "steps_count": 0,
+      "execution_success": false,
+      "execution_message": "No steps generated",
+      "steps": [],
+      "raw_output": "[Start thinking]\n\nThe user wants to create a pie chart or chart showing the sales percentage for each category of products. They want to know the breakdown of sales by product category.\n\nLooking at the available tools:\n1. aggregate_tool - for math stats\n2. filter_tool - for filtering rows\n3. view_to"
+    },
+    {
+      "model": "qwen3.5-2b-base",
+      "test_id": "T6_Chart_GroupedBar_EN",
+      "category": "Grouped Bar Chart (EN)",
+      "wall_sec": 1.69,
+      "gen_tps": 457.4,
+      "prefill_tps": 15863.9,
+      "cot_tokens": 0,
+      "total_tokens": 249,
+      "steps_count": 0,
+      "execution_success": false,
+      "execution_message": "No steps generated",
+      "steps": [],
+      "raw_output": "[Start thinking]\n\nThe user wants to create a grouped bar chart showing total sales for each category, grouped by city.\n\nLet me break down what I need to do:\n\n1. First, I should filter to get only the relevant columns (Order_ID, Customer, Product, Category, Price, Quantity, Discount_Percent, Total, C"
+    }
+  ],
+  "bonsai-4b-prismml": [
+    {
+      "model": "bonsai-4b-prismml",
+      "test_id": "T1_Simple_EN",
+      "category": "Basic Aggregation (EN)",
+      "wall_sec": 0.95,
+      "gen_tps": 443.7,
+      "prefill_tps": 17154.4,
+      "cot_tokens": 0,
+      "total_tokens": 10,
+      "steps_count": 1,
+      "execution_success": true,
+      "execution_message": "1254621382.3999999",
+      "steps": [
+        {
+          "tool_name": "aggregate_tool",
+          "tool_args": {
+            "column": "Total",
+            "operation": "sum"
+          }
+        }
+      ],
+      "raw_output": "{\"steps\": [{\"tool_name\": \"aggregate_tool\", \"tool_args\": {\"column\": \"Total\", \"operation\": \"sum\"}}]}"
+    },
+    {
+      "model": "bonsai-4b-prismml",
+      "test_id": "T2_MultiStep_EN",
+      "category": "Multi-step Filter + Grouping (EN)",
+      "wall_sec": 1.21,
+      "gen_tps": 452.4,
+      "prefill_tps": 17569.8,
+      "cot_tokens": 0,
+      "total_tokens": 59,
+      "steps_count": 3,
+      "execution_success": true,
+      "execution_message": "DataFrame (0 rows x 2 cols)",
+      "steps": [
+        {
+          "tool_name": "filter_tool",
+          "tool_args": {
+            "query_string": "(`Total` > 500)"
+          }
+        },
+        {
+          "tool_name": "view_tool",
+          "tool_args": {
+            "sort_by": "City",
+            "ascending": false,
+            "n": 0,
+            "unique_column": "City"
+          }
+        },
+        {
+          "tool_name": "aggregate_tool",
+          "tool_args": {
+            "column": "Total",
+            "operation": "sum",
+            "by_column": "City",
+            "n": 0
+          }
+        }
+      ],
+      "raw_output": "{\n    \"steps\": [\n        {\n            \"tool_name\": \"filter_tool\",\n            \"tool_args\": {\n                \"query_string\": \"(`Total` > 500)\"\n            }\n        },\n        {\n            \"tool_name\": \"view_tool\",\n            \"tool_args\": {\n                \"sort_by\": \"City\",\n                \"asce"
+    },
+    {
+      "model": "bonsai-4b-prismml",
+      "test_id": "T3_Simple_AR",
+      "category": "Basic Aggregation (AR)",
+      "wall_sec": 1.0,
+      "gen_tps": 444.8,
+      "prefill_tps": 17300.7,
+      "cot_tokens": 0,
+      "total_tokens": 23,
+      "steps_count": 1,
+      "execution_success": true,
+      "execution_message": "DataFrame (39 rows x 2 cols)",
+      "steps": [
+        {
+          "tool_name": "aggregate_tool",
+          "tool_args": {
+            "column": "Price",
+            "operation": "mean",
+            "by_column": "Product"
+          }
+        }
+      ],
+      "raw_output": "{\n    \"steps\": [\n        {\n            \"tool_name\": \"aggregate_tool\",\n            \"tool_args\": {\n                \"column\": \"Price\",\n                \"operation\": \"mean\",\n                \"by_column\": \"Product\"\n            }\n        }\n    ]\n}"
+    },
+    {
+      "model": "bonsai-4b-prismml",
+      "test_id": "T4_MultiStep_AR",
+      "category": "Multi-step Filter + Grouping (AR)",
+      "wall_sec": 1.16,
+      "gen_tps": 449.2,
+      "prefill_tps": 17586.6,
+      "cot_tokens": 0,
+      "total_tokens": 52,
+      "steps_count": 3,
+      "execution_success": true,
+      "execution_message": "DataFrame (8 rows x 2 cols)",
+      "steps": [
+        {
+          "tool_name": "filter_tool",
+          "tool_args": {
+            "query_string": "(`Quantity` > 5)"
+          }
+        },
+        {
+          "tool_name": "aggregate_tool",
+          "tool_args": {
+            "column": "Total",
+            "operation": "sum",
+            "by_column": "Category"
+          }
+        },
+        {
+          "tool_name": "view_tool",
+          "tool_args": {
+            "sort_by": "Total",
+            "ascending": false
+          }
+        }
+      ],
+      "raw_output": "{\n    \"steps\": [\n        {\n            \"tool_name\": \"filter_tool\",\n            \"tool_args\": {\n                \"query_string\": \"(`Quantity` > 5)\"\n            }\n        },\n        {\n            \"tool_name\": \"aggregate_tool\",\n            \"tool_args\": {\n                \"column\": \"Total\",\n               "
+    },
+    {
+      "model": "bonsai-4b-prismml",
+      "test_id": "T5_Chart_Pie_AR",
+      "category": "Pie Chart (AR)",
+      "wall_sec": 1.23,
+      "gen_tps": 448.8,
+      "prefill_tps": 17294.2,
+      "cot_tokens": 0,
+      "total_tokens": 65,
+      "steps_count": 3,
+      "execution_success": false,
+      "execution_message": "Step 3 chart error: cannot insert Category, already exists",
+      "steps": [
+        {
+          "tool_name": "filter_tool",
+          "tool_args": {
+            "query_string": "Category in ['Clothing', 'Food']"
+          }
+        },
+        {
+          "tool_name": "aggregate_tool",
+          "tool_args": {
+            "column": "Total",
+            "operation": "mean",
+            "by_column": "Category"
+          }
+        },
+        {
+          "tool_name": "chart_tool",
+          "tool_args": {
+            "chart_type": "bar",
+            "x": "Category",
+            "y": "Total",
+            "title": "Sales by Product Category",
+            "color_by": "Category"
+          }
+        }
+      ],
+      "raw_output": "{\n    \"steps\": [\n        {\n            \"tool_name\": \"filter_tool\",\n            \"tool_args\": {\n                \"query_string\": \"Category in ['Clothing', 'Food']\"\n            }\n        },\n        {\n            \"tool_name\": \"aggregate_tool\",\n            \"tool_args\": {\n                \"column\": \"Total\","
+    },
+    {
+      "model": "bonsai-4b-prismml",
+      "test_id": "T6_Chart_GroupedBar_EN",
+      "category": "Grouped Bar Chart (EN)",
+      "wall_sec": 1.4,
+      "gen_tps": 456.2,
+      "prefill_tps": 17217.3,
+      "cot_tokens": 0,
+      "total_tokens": 93,
+      "steps_count": 4,
+      "execution_success": false,
+      "execution_message": "Step 3 aggregate error: 'City'",
+      "steps": [
+        {
+          "tool_name": "view_tool",
+          "tool_args": {
+            "sort_by": "Category",
+            "ascending": true,
+            "n": 100
+          }
+        },
+        {
+          "tool_name": "aggregate_tool",
+          "tool_args": {
+            "column": "Total",
+            "operation": "sum",
+            "by_column": "Category",
+            "n": 100
+          }
+        },
+        {
+          "tool_name": "aggregate_tool",
+          "tool_args": {
+            "column": "Total",
+            "operation": "sum",
+            "by_column": "City",
+            "n": 100
+          }
+        },
+        {
+          "tool_name": "chart_tool",
+          "tool_args": {
+            "chart_type": "bar",
+            "x": "Category",
+            "y": "Total",
+            "color_by": "City",
+            "title": "Total Sales by Category and City",
+            "output_path": "charts/sales_by_category_city.html"
+          }
+        }
+      ],
+      "raw_output": "{\n    \"steps\": [\n        {\n            \"tool_name\": \"view_tool\",\n            \"tool_args\": {\n                \"sort_by\": \"Category\",\n                \"ascending\": true,\n                \"n\": 100\n            }\n        },\n        {\n            \"tool_name\": \"aggregate_tool\",\n            \"tool_args\": {\n    "
+    }
+  ],
+  "bonsai-1.7b-prismml": [
+    {
+      "model": "bonsai-1.7b-prismml",
+      "test_id": "T1_Simple_EN",
+      "category": "Basic Aggregation (EN)",
+      "wall_sec": 0.93,
+      "gen_tps": 656.8,
+      "prefill_tps": 26973.4,
+      "cot_tokens": 0,
+      "total_tokens": 22,
+      "steps_count": 1,
+      "execution_success": true,
+      "execution_message": "DataFrame (100000 rows x 2 cols)",
+      "steps": [
+        {
+          "tool_name": "aggregate_tool",
+          "tool_args": {
+            "column": "Total",
+            "operation": "sum",
+            "by_column": "Order_ID",
+            "n": 1
+          }
+        }
+      ],
+      "raw_output": "{\n    \"steps\": [\n        { \"tool_name\": \"aggregate_tool\", \"tool_args\": {\"column\": \"Total\", \"operation\": \"sum\", \"by_column\": \"Order_ID\", \"n\": 1}}\n    ]\n}"
+    },
+    {
+      "model": "bonsai-1.7b-prismml",
+      "test_id": "T2_MultiStep_EN",
+      "category": "Multi-step Filter + Grouping (EN)",
+      "wall_sec": 1.15,
+      "gen_tps": 657.1,
+      "prefill_tps": 26661.5,
+      "cot_tokens": 0,
+      "total_tokens": 76,
+      "steps_count": 4,
+      "execution_success": false,
+      "execution_message": "Unrecognized tool: group_by_tool",
+      "steps": [
+        {
+          "tool_name": "filter_tool",
+          "tool_args": {
+            "query_string": "(`Total` > 500)"
+          }
+        },
+        {
+          "tool_name": "group_by_tool",
+          "tool_args": {
+            "column": "City",
+            "operation": "sum",
+            "by_column": "City"
+          },
+          "n": 1
+        },
+        {
+          "tool_name": "view_tool",
+          "tool_args": {
+            "sort_by": "city",
+            "ascending": false,
+            "n": 1
+          }
+        },
+        {
+          "tool_name": "aggregate_tool",
+          "tool_args": {
+            "column": "Total",
+            "operation": "sum",
+            "by_column": "City",
+            "n": 1
+          }
+        }
+      ],
+      "raw_output": "{\n    \"steps\": [\n        {\n            \"tool_name\": \"filter_tool\",\n            \"tool_args\": {\n                \"query_string\": \"(`Total` > 500)\"\n            }\n        },\n        {\n            \"tool_name\": \"group_by_tool\",\n            \"tool_args\": {\n                \"column\": \"City\",\n                \"o"
+    },
+    {
+      "model": "bonsai-1.7b-prismml",
+      "test_id": "T3_Simple_AR",
+      "category": "Basic Aggregation (AR)",
+      "wall_sec": 0.94,
+      "gen_tps": 644.0,
+      "prefill_tps": 26854.3,
+      "cot_tokens": 0,
+      "total_tokens": 23,
+      "steps_count": 1,
+      "execution_success": false,
+      "execution_message": "Step 1 aggregate error: agg function failed [how->mean,dtype->object]",
+      "steps": [
+        {
+          "tool_name": "aggregate_tool",
+          "tool_args": {
+            "column": "Category",
+            "operation": "mean",
+            "by_column": "Category"
+          }
+        }
+      ],
+      "raw_output": "{\n    \"steps\": [\n        {\n            \"tool_name\": \"aggregate_tool\",\n            \"tool_args\": {\n                \"column\": \"Category\",\n                \"operation\": \"mean\",\n                \"by_column\": \"Category\"\n            }\n        }\n    ]\n}"
+    },
+    {
+      "model": "bonsai-1.7b-prismml",
+      "test_id": "T4_MultiStep_AR",
+      "category": "Multi-step Filter + Grouping (AR)",
+      "wall_sec": 1.08,
+      "gen_tps": 654.7,
+      "prefill_tps": 27078.3,
+      "cot_tokens": 0,
+      "total_tokens": 62,
+      "steps_count": 3,
+      "execution_success": true,
+      "execution_message": "DataFrame (1 rows x 2 cols)",
+      "steps": [
+        {
+          "tool_name": "filter_tool",
+          "tool_args": {
+            "query_string": "(`Quantity` > 5) and (Category == 'Clothing')"
+          }
+        },
+        {
+          "tool_name": "aggregate_tool",
+          "tool_args": {
+            "column": "Total",
+            "operation": "sum",
+            "by_column": "Category",
+            "n": 1
+          }
+        },
+        {
+          "tool_name": "view_tool",
+          "tool_args": {
+            "sort_by": "Total",
+            "ascending": false,
+            "n": 100
+          }
+        }
+      ],
+      "raw_output": "{\n    \"steps\": [\n        {\n            \"tool_name\": \"filter_tool\",\n            \"tool_args\": {\n                \"query_string\": \"(`Quantity` > 5) and (Category == 'Clothing')\"\n            }\n        },\n        {\n            \"tool_name\": \"aggregate_tool\",\n            \"tool_args\": {\n                \"colu"
+    },
+    {
+      "model": "bonsai-1.7b-prismml",
+      "test_id": "T5_Chart_Pie_AR",
+      "category": "Pie Chart (AR)",
+      "wall_sec": 0.93,
+      "gen_tps": 636.7,
+      "prefill_tps": 26699.8,
+      "cot_tokens": 0,
+      "total_tokens": 22,
+      "steps_count": 1,
+      "execution_success": false,
+      "execution_message": "Step 1 filter error: invalid syntax. Maybe you meant '==' or ':=' instead of '='? (<unknown>, line 1)",
+      "steps": [
+        {
+          "tool_name": "filter_tool",
+          "tool_args": {
+            "query_string": "(`Category` = 'Clothing') or (`Category` = 'Food')"
+          }
+        }
+      ],
+      "raw_output": "{\n    \"steps\": [\n        { \"tool_name\": \"filter_tool\", \"tool_args\": {\"query_string\": \"(`Category` = 'Clothing') or (`Category` = 'Food')\"}}\n    ]\n}"
+    },
+    {
+      "model": "bonsai-1.7b-prismml",
+      "test_id": "T6_Chart_GroupedBar_EN",
+      "category": "Grouped Bar Chart (EN)",
+      "wall_sec": 1.25,
+      "gen_tps": 661.7,
+      "prefill_tps": 26794.8,
+      "cot_tokens": 0,
+      "total_tokens": 105,
+      "steps_count": 4,
+      "execution_success": false,
+      "execution_message": "Step 1 filter error: '>' not supported between instances of 'str' and 'int'",
+      "steps": [
+        {
+          "tool_name": "filter_tool",
+          "tool_args": {
+            "query_string": "(`City` > 1000 and `Category` in ['Clothing', 'Food'])"
+          }
+        },
+        {
+          "tool_name": "transform_tool",
+          "tool_args": {
+            "action": "add_column",
+            "new_column": "Total",
+            "formula": "SUM(Price * Quantity)",
+            "columns": [
+              "Price",
+              "Quantity",
+              "Total"
+            ]
+          }
+        },
+        {
+          "tool_name": "view_tool",
+          "tool_args": {
+            "sort_by": "category",
+            "ascending": "true",
+            "n": "100",
+            "unique_column": "Total"
+          }
+        },
+        {
+          "tool_name": "chart_tool",
+          "tool_args": {
+            "chart_type": "bar",
+            "x": "category",
+            "y": "Total",
+            "title": "Total Sales by Category and City",
+            "color_by": "total",
+            "agg": "sum",
+            "output_path": "charts/sales.html"
+          }
+        }
+      ],
+      "raw_output": "{\n    \"steps\": [\n        {\n            \"tool_name\": \"filter_tool\",\n            \"tool_args\": {\n                \"query_string\": \"(`City` > 1000 and `Category` in ['Clothing', 'Food'])\"\n            }\n        },\n        {\n            \"tool_name\": \"transform_tool\",\n            \"tool_args\": {\n            "
+    }
+  ]
+}

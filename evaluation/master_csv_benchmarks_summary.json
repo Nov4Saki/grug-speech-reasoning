@@ -1,0 +1,123 @@
+[
+  {
+    "model": "bonsai-8b-prismml",
+    "category": "Base / 1-Bit",
+    "exec_pass_rate": "3/6 (50.0%)",
+    "exec_pass_pct": 50.0,
+    "avg_wall_s": 1.23,
+    "avg_gen_tps": 387.8,
+    "avg_prefill_tps": 12292.9,
+    "avg_cot_tokens": 0.0,
+    "avg_total_tokens": 49.8
+  },
+  {
+    "model": "qwen3.5-4b-grugspeech-native",
+    "category": "Grug Native",
+    "exec_pass_rate": "3/6 (50.0%)",
+    "exec_pass_pct": 50.0,
+    "avg_wall_s": 1.84,
+    "avg_gen_tps": 269.2,
+    "avg_prefill_tps": 10145.1,
+    "avg_cot_tokens": 38.3,
+    "avg_total_tokens": 66.0
+  },
+  {
+    "model": "qwen3.5-4b-base",
+    "category": "Base Peer",
+    "exec_pass_rate": "2/6 (33.3%)",
+    "exec_pass_pct": 33.3,
+    "avg_wall_s": 2.32,
+    "avg_gen_tps": 267.2,
+    "avg_prefill_tps": 9811.6,
+    "avg_cot_tokens": 82.8,
+    "avg_total_tokens": 205.8
+  },
+  {
+    "model": "gemma-4-e2b-grugspeech-native",
+    "category": "Grug Native",
+    "exec_pass_rate": "4/6 (66.7%)",
+    "exec_pass_pct": 66.7,
+    "avg_wall_s": 2.3,
+    "avg_gen_tps": 308.3,
+    "avg_prefill_tps": 11376.3,
+    "avg_cot_tokens": 68.2,
+    "avg_total_tokens": 133.0
+  },
+  {
+    "model": "gemma-4-e2b-base",
+    "category": "Base Peer",
+    "exec_pass_rate": "2/6 (33.3%)",
+    "exec_pass_pct": 33.3,
+    "avg_wall_s": 2.46,
+    "avg_gen_tps": 319.7,
+    "avg_prefill_tps": 8481.1,
+    "avg_cot_tokens": 38.7,
+    "avg_total_tokens": 169.8
+  },
+  {
+    "model": "minicpm5-2b-grugspeech-native",
+    "category": "Grug Native",
+    "exec_pass_rate": "2/6 (33.3%)",
+    "exec_pass_pct": 33.3,
+    "avg_wall_s": 1.16,
+    "avg_gen_tps": 380.0,
+    "avg_prefill_tps": 18933.3,
+    "avg_cot_tokens": 39.8,
+    "avg_total_tokens": 64.2
+  },
+  {
+    "model": "nanbeige4.2-3b-grugspeech-native",
+    "category": "Grug Native",
+    "exec_pass_rate": "0/6 (0.0%)",
+    "exec_pass_pct": 0.0,
+    "avg_wall_s": 2.44,
+    "avg_gen_tps": 208.5,
+    "avg_prefill_tps": 11261.7,
+    "avg_cot_tokens": 0.0,
+    "avg_total_tokens": 217.0
+  },
+  {
+    "model": "qwen3.5-2b-grugspeech-native",
+    "category": "Grug Native",
+    "exec_pass_rate": "0/6 (0.0%)",
+    "exec_pass_pct": 0.0,
+    "avg_wall_s": 1.6,
+    "avg_gen_tps": 458.4,
+    "avg_prefill_tps": 17061.8,
+    "avg_cot_tokens": 105.7,
+    "avg_total_tokens": 152.7
+  },
+  {
+    "model": "qwen3.5-2b-base",
+    "category": "Base Peer",
+    "exec_pass_rate": "1/6 (16.7%)",
+    "exec_pass_pct": 16.7,
+    "avg_wall_s": 1.76,
+    "avg_gen_tps": 458.6,
+    "avg_prefill_tps": 15960.9,
+    "avg_cot_tokens": 52.0,
+    "avg_total_tokens": 224.2
+  },
+  {
+    "model": "bonsai-4b-prismml",
+    "category": "Base / 1-Bit",
+    "exec_pass_rate": "4/6 (66.7%)",
+    "exec_pass_pct": 66.7,
+    "avg_wall_s": 1.16,
+    "avg_gen_tps": 449.2,
+    "avg_prefill_tps": 17353.8,
+    "avg_cot_tokens": 0.0,
+    "avg_total_tokens": 50.3
+  },
+  {
+    "model": "bonsai-1.7b-prismml",
+    "category": "Base / 1-Bit",
+    "exec_pass_rate": "2/6 (33.3%)",
+    "exec_pass_pct": 33.3,
+    "avg_wall_s": 1.05,
+    "avg_gen_tps": 651.8,
+    "avg_prefill_tps": 26843.7,
+    "avg_cot_tokens": 0.0,
+    "avg_total_tokens": 51.7
+  }
+]

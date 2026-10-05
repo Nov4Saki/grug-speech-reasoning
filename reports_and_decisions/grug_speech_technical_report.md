@@ -269,6 +269,34 @@ This eliminated 100% of intermediate column hallucinations without requiring app
 
 ---
 
+### 6.3 Live End-to-End Execution Benchmark on `sales.xlsx` (100,300 Rows) Across All 11 Models
+
+To evaluate actual execution in the production LangGraph application, all 11 models were executed in strict isolation directly against the live `sales.xlsx` dataframe (100,300 rows x 12 columns, 6.4 MB) using the application's native `tools.py` (`aggregate_tool`, `filter_tool`, `view_tool`, `transform_tool`, `chart_tool`):
+
+| Model Name | Architecture Category | Real Execution Pass Rate | Wall Latency (s) | Decode Speed (t/s) | Prompt Prefill (t/s) | Avg CoT (tok) | Avg Total Tokens |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **`gemma-4-e2b-grugspeech-native`** | Grug Native | **4/6 (66.7%)** 🥇 | 2.30s | 308.3 t/s | 11,376.3 t/s | **68.2 t** | **133.0 t** |
+| **`bonsai-4b-prismml`** | Base / 1-Bit | **4/6 (66.7%)** 🥇 | **1.16s** ⚡ | **449.2 t/s** | 17,353.8 t/s | **0.0 t** | **50.3 t** |
+| **`bonsai-8b-prismml`** | Base / 1-Bit | **3/6 (50.0%)** | **1.23s** | 387.8 t/s | 12,292.9 t/s | **0.0 t** | **49.8 t** |
+| **`qwen3.5-4b-grugspeech-native`** | Grug Native | **3/6 (50.0%)** | 1.84s | 269.2 t/s | 10,145.1 t/s | **38.3 t** | **66.0 t** |
+| `qwen3.5-4b-base` | Base Peer | 2/6 (33.3%) | 2.32s | 267.2 t/s | 9,811.6 t/s | 82.8 t | 205.8 t |
+| `gemma-4-e2b-base` | Base Peer | 2/6 (33.3%) | 2.46s | 319.7 t/s | 8,481.1 t/s | 38.7 t | 169.8 t |
+| **`minicpm5-2b-grugspeech-native`** | Grug Native | 2/6 (33.3%) | **1.16s** | 380.0 t/s | **18,933.3 t/s** ⚡ | **39.8 t** | **64.2 t** |
+| `bonsai-1.7b-prismml` | Base / 1-Bit | 2/6 (33.3%) | **1.05s** | **651.8 t/s** ⚡ | **26,843.7 t/s** ⚡ | **0.0 t** | **51.7 t** |
+| `qwen3.5-2b-base` | Base Peer | 1/6 (16.7%) | 1.76s | 458.6 t/s | 15,960.9 t/s | 52.0 t | 224.2 t |
+| **`qwen3.5-2b-grugspeech-native`** | Grug Native | 0/6 (0.0%) | 1.60s | 458.4 t/s | 17,061.8 t/s | 105.7 t | 152.7 t |
+| **`nanbeige4.2-3b-grugspeech-native`** | Grug Native | 0/6 (0.0%) | 2.44s | 208.5 t/s | 11,261.7 t/s | 0.0 t | 217.0 t |
+
+#### Empirical Conclusions from Live 100k-Row Execution:
+1. **Gemma 4 E2B Grug Native Highest Execution Pass Rate (66.7%):**  
+   Successfully orchestrated and executed the plan on the real 100k-row table for T1 (sum Total: `1,254,621,382.40`), T3 (avg Price per Category DataFrame), T5 (interactive Plotly pie chart saved to disk), and T6 (grouped bar chart). It burned only **133 tokens average** vs **170 tokens** for Base Gemma.
+2. **Token Economy Proof on Qwen 4B:**  
+   `Qwen 3.5 4B Grug Native` passed 3/6 queries using only **38.3 CoT tokens** and **66.0 total tokens** (1.84s latency), while `Qwen 3.5 4B Base` burned **82.8 CoT tokens** and **205.8 total tokens** (2.32s latency) — proving a **3.12x total token cost reduction** on the live CSV application.
+3. **1-Bit PrismML Execution Dynamics:**  
+   `Bonsai-4B` and `Bonsai-8B` executed sub-1.25s plans using ~50 total tokens. However, they failed when tool arguments included unsupported keys in `transform_tool` or `chart_tool`, highlighting the lack of an internal CoT self-correction loop.
+
+---
+
 ## 7. High-Throughput Speculative Decoding & Hardware Dynamics
 
 We evaluated speculative decoding pairing `Qwen 3.5 4B` as the target model with `Qwen 3.5 2B Grug Native` as the draft engine on our **NVIDIA RTX PRO 6000 Blackwell (96 GB VRAM, ~2 TB/s bandwidth)**:
