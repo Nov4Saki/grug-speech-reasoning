@@ -1,0 +1,112 @@
+[
+  {
+    "model": "gemma-4-e2b-grugspeech-native",
+    "type": "Grug",
+    "pass_rate_pct": 28.6,
+    "avg_wall_s": 2.23,
+    "avg_gen_tps": 306.0,
+    "avg_prefill_tps": 5128.8,
+    "avg_cot_tokens": 21.7,
+    "schema_ok_ratio": "3/7"
+  },
+  {
+    "model": "gemma-4-e2b-base",
+    "type": "Base",
+    "pass_rate_pct": 14.3,
+    "avg_wall_s": 2.44,
+    "avg_gen_tps": 321.7,
+    "avg_prefill_tps": 3294.8,
+    "avg_cot_tokens": 66.9,
+    "schema_ok_ratio": "1/7"
+  },
+  {
+    "model": "qwen3.5-2b-grugspeech-native",
+    "type": "Grug",
+    "pass_rate_pct": 0.0,
+    "avg_wall_s": 1.56,
+    "avg_gen_tps": 450.9,
+    "avg_prefill_tps": 8853.0,
+    "avg_cot_tokens": 70.6,
+    "schema_ok_ratio": "1/7"
+  },
+  {
+    "model": "qwen3.5-2b-base",
+    "type": "Base",
+    "pass_rate_pct": 14.3,
+    "avg_wall_s": 1.87,
+    "avg_gen_tps": 453.8,
+    "avg_prefill_tps": 7775.7,
+    "avg_cot_tokens": 79.3,
+    "schema_ok_ratio": "3/7"
+  },
+  {
+    "model": "qwen3.5-4b-grugspeech-native",
+    "type": "Grug",
+    "pass_rate_pct": 71.4,
+    "avg_wall_s": 1.85,
+    "avg_gen_tps": 270.2,
+    "avg_prefill_tps": 5808.6,
+    "avg_cot_tokens": 38.3,
+    "schema_ok_ratio": "6/7"
+  },
+  {
+    "model": "qwen3.5-4b-base",
+    "type": "Base",
+    "pass_rate_pct": 42.9,
+    "avg_wall_s": 2.27,
+    "avg_gen_tps": 269.0,
+    "avg_prefill_tps": 5271.4,
+    "avg_cot_tokens": 97.3,
+    "schema_ok_ratio": "3/7"
+  },
+  {
+    "model": "bonsai-8b-prismml",
+    "type": "Base",
+    "pass_rate_pct": 85.7,
+    "avg_wall_s": 1.16,
+    "avg_gen_tps": 419.2,
+    "avg_prefill_tps": 8830.6,
+    "avg_cot_tokens": 0.0,
+    "schema_ok_ratio": "7/7"
+  },
+  {
+    "model": "bonsai-4b-prismml",
+    "type": "Base",
+    "pass_rate_pct": 71.4,
+    "avg_wall_s": 1.16,
+    "avg_gen_tps": 476.3,
+    "avg_prefill_tps": 11886.8,
+    "avg_cot_tokens": 0.0,
+    "schema_ok_ratio": "7/7"
+  },
+  {
+    "model": "bonsai-1.7b-prismml",
+    "type": "Base",
+    "pass_rate_pct": 71.4,
+    "avg_wall_s": 1.04,
+    "avg_gen_tps": 691.5,
+    "avg_prefill_tps": 16878.5,
+    "avg_cot_tokens": 0.0,
+    "schema_ok_ratio": "7/7"
+  },
+  {
+    "model": "minicpm5-2b-grugspeech-native",
+    "type": "Grug",
+    "pass_rate_pct": 28.6,
+    "avg_wall_s": 1.14,
+    "avg_gen_tps": 390.4,
+    "avg_prefill_tps": 12771.7,
+    "avg_cot_tokens": 31.0,
+    "schema_ok_ratio": "3/7"
+  },
+  {
+    "model": "nanbeige4.2-3b-grugspeech-native",
+    "type": "Grug",
+    "pass_rate_pct": 14.3,
+    "avg_wall_s": 2.33,
+    "avg_gen_tps": 220.1,
+    "avg_prefill_tps": 8487.8,
+    "avg_cot_tokens": 46.0,
+    "schema_ok_ratio": "1/7"
+  }
+]
