@@ -91,6 +91,13 @@
       "q8_0_gguf_gb": 4.7,
       "q4_k_m_gguf_gb": 3.2,
       "min_vram_gb": 4.0
+    },
+    {
+      "model": "Qwen 3.5 4B Grug Native MTP",
+      "bf16_full_gb": 9.61,
+      "q8_0_gguf_gb": 4.61,
+      "q4_k_m_gguf_gb": 2.64,
+      "min_vram_gb": 3.6
     }
   ],
   "training_metrics": [
@@ -115,5 +122,37 @@
       "token_accuracy_pct": 73.46,
       "training_time_sec": 49
     }
-  ]
+  ],
+  "speculative_decoding_benchmarks": {
+    "hardware": "NVIDIA RTX PRO 6000 Blackwell (96 GB VRAM, ~2 TB/s)",
+    "qwen3.5_4b_standard_causal_lm": {
+      "layers": 32,
+      "prompt_eval_tokens_sec": 431.4,
+      "generation_tokens_sec": 207.8,
+      "mtp_enabled": false
+    },
+    "qwen3.5_4b_native_mtp_nextn": {
+      "layers": 33,
+      "prompt_eval_tokens_sec": 745.4,
+      "generation_tokens_sec": 257.5,
+      "mtp_enabled": true,
+      "draft_acceptance_rate_pct": 86.4,
+      "throughput_speedup": "1.24x generation, 1.73x prompt eval"
+    },
+    "qwen3.5_4b_with_2b_grug_draft_engine": {
+      "target_model": "Qwen 3.5 4B (Q4_K_M)",
+      "draft_model": "Qwen 3.5 2B (Q4_K_M)",
+      "draft_n_max": 4,
+      "datacenter_gpu_speedup": "1.35x",
+      "consumer_laptop_projected_speedup": "1.9x - 2.3x",
+      "consumer_laptop_baseline_tok_sec": 32.0,
+      "consumer_laptop_speculative_tok_sec": 68.5
+    },
+    "gemma4_e2b_benchmark": {
+      "layers": 35,
+      "prompt_eval_tokens_sec": 539.1,
+      "generation_tokens_sec": 73.5,
+      "tensor_dim_verification": "PASSED - 0 errors, no MTP mismatch"
+    }
+  }
 }
