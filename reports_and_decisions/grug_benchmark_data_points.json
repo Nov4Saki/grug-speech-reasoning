@@ -105,6 +105,13 @@
       "q8_0_gguf_gb": 2.56,
       "q4_k_m_gguf_gb": 1.49,
       "min_vram_gb": 2.1
+    },
+    {
+      "model": "Nanbeige 4.2 3B Grug Native",
+      "bf16_full_gb": 7.95,
+      "q8_0_gguf_gb": 4.13,
+      "q4_k_m_gguf_gb": 2.39,
+      "min_vram_gb": 3.2
     }
   ],
   "training_metrics": [
@@ -135,6 +142,13 @@
       "eval_loss": 1.035,
       "token_accuracy_pct": 76.31,
       "training_time_sec": 53.1
+    },
+    {
+      "model": "Nanbeige 4.2-3B",
+      "train_loss": 1.45,
+      "eval_loss": 3.91,
+      "token_accuracy_pct": 34.76,
+      "training_time_sec": 75.0
     }
   ],
   "speculative_decoding_benchmarks": {
@@ -173,6 +187,12 @@
       "prompt_eval_tokens_sec": 2204.0,
       "generation_tokens_sec": 393.1,
       "tensor_dim_verification": "PASSED - 0 errors, full LLaMA format compliance"
+    },
+    "nanbeige4.2_3b_benchmark": {
+      "architecture": "NanbeigeForCausalLM (22 Layers, 166k vocab, 262k context)",
+      "prompt_eval_tokens_sec": 3583.0,
+      "generation_tokens_sec": 218.1,
+      "vocab_padding_fix": "Aligned SentencePiece token count to 166,144 (resolved 37-token check_tensor_dims shape mismatch)"
     }
   },
   "excel_real_world_benchmark": {

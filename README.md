@@ -25,6 +25,7 @@ An end-to-end framework to compress long-form Chain-of-Thought (CoT) reasoning i
 
 | Model | Architecture | GGUF Binaries Available | Min VRAM | Hugging Face Repository |
 | :--- | :--- | :--- | :--- | :--- |
+| **Nanbeige 4.2 3B Grug Native** | 22 Layers (Nanbeige Causal LM) | `Nanbeige4.2-3B-GrugSpeech-Q4_K_M.gguf` (2.4 GB)<br>`Nanbeige4.2-3B-GrugSpeech-Q8_0.gguf` (4.1 GB) | ~3.2 GB | [`Novasaki/Nanbeige4.2-3B-GrugSpeech-Native`](https://huggingface.co/Novasaki/Nanbeige4.2-3B-GrugSpeech-Native) |
 | **MiniCPM 5 2B Grug Native** | 42 Layers (Llama Causal LM) | `MiniCPM5-2B-GrugSpeech-Q4_K_M.gguf` (1.5 GB)<br>`MiniCPM5-2B-GrugSpeech-Q8_0.gguf` (2.5 GB) | ~2.1 GB | [`Novasaki/MiniCPM5-2B-GrugSpeech-Native`](https://huggingface.co/Novasaki/MiniCPM5-2B-GrugSpeech-Native) |
 | **Qwen 3.5 4B Grug (Standard)** | 32 Layers (Causal LM) | `Qwen3.5-4B-GrugSpeech-Q4_K_M.gguf` (2.6 GB)<br>`Qwen3.5-4B-GrugSpeech-Q8_0.gguf` (4.2 GB) | ~3.4 GB | [`Novasaki/Qwen3.5-4B-GrugSpeech-Native`](https://huggingface.co/Novasaki/Qwen3.5-4B-GrugSpeech-Native) |
 | **Qwen 3.5 4B Grug (Native MTP)** | 33 Layers (MTP NextN) | `Qwen3.5-4B-GrugSpeech-MTP-Q4_K_M.gguf` (2.64 GB)<br>`Qwen3.5-4B-GrugSpeech-MTP-Q8_0.gguf` (4.61 GB) | ~3.6 GB | [`Novasaki/Qwen3.5-4B-GrugSpeech-Native`](https://huggingface.co/Novasaki/Qwen3.5-4B-GrugSpeech-Native) |
@@ -90,12 +91,14 @@ Turn 40 | Verbose (492.0k tok): ############ | Grug (49.2k tok): **** (10x Savin
 │   ├── train_qwen_grug.py             <- Qwen 3.5 2B trainer
 │   ├── train_qwen3.5_4b_grug.py       <- Qwen 3.5 4B native trainer
 │   ├── train_gemma4_grug.py           <- Gemma 4 E2B trainer (with clippable linear regex fix)
-│   └── train_minicpm5_2b_grug.py      <- MiniCPM5 2B trainer (QLoRA 8-bit, 42 layers)
+│   ├── train_minicpm5_2b_grug.py      <- MiniCPM5 2B trainer (QLoRA 8-bit, 42 layers)
+│   └── train_nanbeige4.2_3b_grug.py   <- Nanbeige 4.2-3B trainer (22 layers, 166k vocab)
 │
 ├── quantization_and_export/           <- LoRA weight merge & GGUF compilation
 │   ├── merge_and_export_gguf.py       <- bfloat16 adapter merger & llama.cpp export (Q8_0, Q4_K_M)
 │   ├── export_gemma4_gguf.py          <- Gemma 4 specific GGUF conversion script
-│   └── export_minicpm5_gguf.py        <- MiniCPM5 specific GGUF conversion & quantization script
+│   ├── export_minicpm5_gguf.py        <- MiniCPM5 specific GGUF conversion & quantization script
+│   └── export_nanbeige4.2_gguf.py     <- Nanbeige 4.2 specific conversion & vocab-padding script
 │
 ├── evaluation/                        <- Evaluation & validation harnesses
 │   ├── evaluate_grug_model.py         <- Benchmark evaluation (GSM8K, ARC, systems)
@@ -119,6 +122,7 @@ Turn 40 | Verbose (492.0k tok): ############ | Grug (49.2k tok): **** (10x Savin
     ├── Modelfile.qwen3.5_4b           <- Ollama Modelfile for Qwen 3.5 4B
     ├── Modelfile.gemma4_e2b           <- Ollama Modelfile for Gemma 4 E2B
     ├── Modelfile.minicpm5_2b          <- Ollama Modelfile for MiniCPM5 2B
+    ├── Modelfile.nanbeige4.2_3b       <- Ollama Modelfile for Nanbeige 4.2-3B
     └── run_llama_cli.sh               <- Shell script for llama-cli inference
 ```
 
