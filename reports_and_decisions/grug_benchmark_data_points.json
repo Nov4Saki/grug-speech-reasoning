@@ -1,0 +1,119 @@
+{
+  "reasoning_tokens_per_problem": [
+    {
+      "task": "OpenBookQA (Biology)",
+      "verbose_tokens": 127,
+      "grug_tokens": 51,
+      "reduction_pct": 59.8,
+      "compression_ratio": 2.49
+    },
+    {
+      "task": "MMLU (Elementary Math)",
+      "verbose_tokens": 149,
+      "grug_tokens": 61,
+      "reduction_pct": 59.1,
+      "compression_ratio": 2.44
+    },
+    {
+      "task": "Systems Architecture",
+      "verbose_tokens": 128,
+      "grug_tokens": 63,
+      "reduction_pct": 50.8,
+      "compression_ratio": 2.03
+    },
+    {
+      "task": "Hermes Tool Calling",
+      "verbose_tokens": 182,
+      "grug_tokens": 38,
+      "reduction_pct": 79.1,
+      "compression_ratio": 4.79
+    },
+    {
+      "task": "Python Bug Triage",
+      "verbose_tokens": 140,
+      "grug_tokens": 35,
+      "reduction_pct": 75.0,
+      "compression_ratio": 4.0
+    },
+    {
+      "task": "Continuous Server Math",
+      "verbose_tokens": 115,
+      "grug_tokens": 39,
+      "reduction_pct": 66.1,
+      "compression_ratio": 2.95
+    }
+  ],
+  "agent_context_compounding_40_turns": [
+    {
+      "turn": 5,
+      "verbose_cumulative_k_tokens": 7.5,
+      "grug_cumulative_k_tokens": 0.8
+    },
+    {
+      "turn": 10,
+      "verbose_cumulative_k_tokens": 30.0,
+      "grug_cumulative_k_tokens": 3.1
+    },
+    {
+      "turn": 20,
+      "verbose_cumulative_k_tokens": 120.0,
+      "grug_cumulative_k_tokens": 12.3
+    },
+    {
+      "turn": 30,
+      "verbose_cumulative_k_tokens": 270.0,
+      "grug_cumulative_k_tokens": 27.6
+    },
+    {
+      "turn": 40,
+      "verbose_cumulative_k_tokens": 492.0,
+      "grug_cumulative_k_tokens": 49.2
+    }
+  ],
+  "model_storage_and_quantization_gb": [
+    {
+      "model": "Qwen 3.5 2B",
+      "bf16_full_gb": 4.55,
+      "q8_0_gguf_gb": 1.9,
+      "q4_k_m_gguf_gb": 1.2,
+      "min_vram_gb": 1.8
+    },
+    {
+      "model": "Qwen 3.5 4B",
+      "bf16_full_gb": 9.32,
+      "q8_0_gguf_gb": 4.2,
+      "q4_k_m_gguf_gb": 2.6,
+      "min_vram_gb": 3.4
+    },
+    {
+      "model": "Gemma 4 E2B",
+      "bf16_full_gb": 10.2,
+      "q8_0_gguf_gb": 4.7,
+      "q4_k_m_gguf_gb": 3.2,
+      "min_vram_gb": 4.0
+    }
+  ],
+  "training_metrics": [
+    {
+      "model": "Qwen 3.5 2B",
+      "train_loss": 0.5295,
+      "eval_loss": 0.3792,
+      "token_accuracy_pct": 90.19,
+      "training_time_sec": 223
+    },
+    {
+      "model": "Qwen 3.5 4B",
+      "train_loss": 0.9938,
+      "eval_loss": 0.8495,
+      "token_accuracy_pct": 78.97,
+      "training_time_sec": 65
+    },
+    {
+      "model": "Gemma 4 E2B",
+      "train_loss": 1.8823,
+      "eval_loss": 1.198,
+      "token_accuracy_pct": 73.46,
+      "training_time_sec": 49
+    }
+  ]
+}

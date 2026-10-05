@@ -1,0 +1,30 @@
+{
+  "dataset_name": "Grug-Speech-Multi-Field-Reasoning-Taxonomy",
+  "total_samples": 92,
+  "train_samples": 77,
+  "val_samples": 15,
+  "taxonomy": {
+    "tooluse/agent_tool_loop": 25,
+    "coding/bug_triage_debugging": 2,
+    "language/translation_semantics": 4,
+    "coding/architecture_refactoring": 2,
+    "tooluse/cli_bash_terminal_safety": 2,
+    "math_logic/constraint_formal_logic": 2,
+    "roleplay/direct_mentor": 2,
+    "math_logic/deep_reasoning_deduction": 25,
+    "coding/api_systems_concurrency": 2,
+    "language/discourse_ambiguity": 2,
+    "math_logic/multistep_arithmetic": 2,
+    "roleplay/incident_commander": 2,
+    "coding/algorithm_complexity": 2,
+    "tooluse/tool_failure_error_recovery": 2,
+    "math_logic/physical_causal_reasoning": 2,
+    "language/grammar_style_transfer": 2,
+    "roleplay/defensive_pr_reviewer": 2,
+    "coding/sql_query_optimization": 2,
+    "tooluse/multi_step_task_decomposition": 2,
+    "language/dense_summarization": 2,
+    "tooluse/pre_tool_parameter_synthesis": 2,
+    "roleplay/grug_senior_architect": 2
+  }
+}

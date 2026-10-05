@@ -1,0 +1,15 @@
+FROM ./Qwen3.5-4B-GrugSpeech-Q4_K_M.gguf
+
+TEMPLATE """{{ if .System }}<|im_start|>system
+{{ .System }}<|im_end|>
+{{ end }}{{ if .Prompt }}<|im_start|>user
+{{ .Prompt }}<|im_end|>
+{{ end }}<|im_start|>assistant
+{{ .Response }}<|im_end|>"""
+
+SYSTEM """You are Qwen 3.5. You reason internally in Grug Speech inside <think> tags."""
+
+PARAMETER temperature 0.6
+PARAMETER top_p 0.95
+PARAMETER stop "<|im_end|>"
+PARAMETER stop "<|endoftext|>"

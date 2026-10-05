@@ -1,0 +1,14 @@
+FROM ./Gemma4-E2B-GrugSpeech-Q4_K_M.gguf
+
+TEMPLATE """<start_of_turn>user
+{{ if .System }}{{ .System }}
+
+{{ end }}{{ .Prompt }}<end_of_turn>
+<start_of_turn>model
+{{ .Response }}<end_of_turn>"""
+
+SYSTEM """You reason internally in Grug Speech inside <think> tags."""
+
+PARAMETER temperature 0.6
+PARAMETER top_p 0.95
+PARAMETER stop "<end_of_turn>"
