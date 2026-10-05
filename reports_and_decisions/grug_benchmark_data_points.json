@@ -399,5 +399,47 @@
         "verdict": "Load Error in llama.cpp due to experimental ternary matrix quant format requiring custom kernel builds."
       }
     ]
+  },
+  "bonsai_family_empirical_evaluation": {
+    "developer": "PrismML",
+    "base_architectures": {
+      "Bonsai-1.7B": "Qwen3ForCausalLM (28 layers, hidden 2048)",
+      "Bonsai-4B": "Qwen3ForCausalLM (36 layers, hidden 2560)",
+      "Bonsai-8B": "Qwen3ForCausalLM (36 layers, hidden 4096)",
+      "Ternary-Bonsai-2-27B": "Qwen3_5ForConditionalGeneration (27B ternary)"
+    },
+    "benchmarked_models": [
+      {
+        "model": "Bonsai-1.7B",
+        "gguf_size_mb": 230,
+        "quantization": "1-bit (Q1_0)",
+        "prompt_eval_tok_sec": 5299.4,
+        "generation_tok_sec": 682.8,
+        "tool_calling_accuracy": "FAIL (Severe Hallucination)",
+        "arabic_accuracy": "FAIL (Generated mock product catalog instead of calling tool)",
+        "verdict": "Ultra fast (682 t/s) but 1-bit quantization causes catastrophic capacity collapse on structured JSON reasoning."
+      },
+      {
+        "model": "Bonsai-4B",
+        "gguf_size_mb": 530,
+        "quantization": "1-bit (Q1_0)",
+        "prompt_eval_tok_sec": 4284.8,
+        "generation_tok_sec": 432.0,
+        "tool_calling_accuracy": "REFUSED (Emitted {\"error\": \"No data or specific columns provided\"})",
+        "arabic_accuracy": "REFUSED (Emitted {\"error\": \"\u0627\u0644\u0637\u0644\u0628 \u063a\u064a\u0631 \u0645\u062d\u062f\u062f\"})",
+        "verdict": "Fast (432 t/s) but over-conservative; rejects zero-shot data analysis planning."
+      },
+      {
+        "model": "Bonsai-8B",
+        "gguf_size_mb": 1080,
+        "quantization": "1-bit (Q1_0)",
+        "prompt_eval_tok_sec": 3654.9,
+        "generation_tok_sec": 394.0,
+        "tool_calling_accuracy": "PASS (100% on English schemas, no column hallucination)",
+        "arabic_accuracy": "PARTIAL (Mapped mean correctly, but failed Egyptian slang: selected bar_chart instead of pie, hallucinated Arabic strings as column keys)",
+        "unconstrained_verbosity": "VERY HIGH (Emits 300+ token conversational essays on bug triage without Grug prompt bounding)",
+        "verdict": "Sweet spot for 1-bit capacity. Excellent English tool dispatch, but needs Grug prompt engineering to prevent verbosity and lags behind Gemma 4 on nuanced Arabic dialects."
+      }
+    ]
   }
 }

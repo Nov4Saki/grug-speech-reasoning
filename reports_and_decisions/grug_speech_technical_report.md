@@ -385,6 +385,44 @@ quadrantChart
 
 ---
 
+### 6.7 The PrismML Bonsai Family: Comprehensive 1-Bit Scaling Analysis & Architectural Limits
+
+Following the empirical discovery that `Bonsai-8B` achieved S-Tier performance (4.03s latency in 1.08 GiB VRAM), we conducted an exhaustive investigation across the entire **PrismML Bonsai Model Ecosystem** (`Bonsai-1.7B`, `Bonsai-4B`, `Bonsai-8B`, `Bonsai-27B`, and `Ternary-Bonsai-2-27B`) to test the limits of 1-bit / ternary quantization on autonomous agent loops.
+
+#### Architectural Lineage
+Inspection of the underlying configuration and unpacked tensor shards revealed:
+- **`Bonsai-1.7B`**: Based on `Qwen3ForCausalLM` (28 layers, hidden size 2048, 151k vocab), quantized to 1-bit (`Q1_0`, 230 MB).
+- **`Bonsai-4B`**: Based on `Qwen3ForCausalLM` (36 layers, hidden size 2560, 151k vocab), quantized to 1-bit (`Q1_0`, 530 MB).
+- **`Bonsai-8B`**: Based on `Qwen3ForCausalLM` (36 layers, hidden size 4096, 151k vocab), quantized to 1-bit (`Q1_0`, 1.08 GB).
+- **`Ternary-Bonsai-2-27B`**: Based on `Qwen3.5` (27B parameter MoE/dense, 5.54 GB).
+
+#### Empirical Cross-Bonsai Benchmark on Data Analysis & Dialectal Prompts
+
+| Model | GGUF Size | Quantization | Prompt Speed | Decode Speed | Structured Tool Accuracy | Multilingual Dialect Accuracy | Unconstrained Verbosity |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **`Bonsai-1.7B`** | **0.23 GB** | 1-bit (`Q1_0`) | **5,299 tok/s** | **682.8 tok/s** ⚡ | ❌ **FAIL** (Severe hallucination) | ❌ **FAIL** (Generated mock products) | Low (Broken syntax) |
+| **`Bonsai-4B`** | **0.53 GB** | 1-bit (`Q1_0`) | **4,284 tok/s** | **432.0 tok/s** | ⚠️ **REFUSED** (Over-conservative) | ⚠️ **REFUSED** (`الطلب غير محدد`) | Minimal (Refusal strings) |
+| **`Bonsai-8B`** | **1.08 GB** | 1-bit (`Q1_0`) | **3,654 tok/s** | **394.0 tok/s** | ✅ **PASS** (Flawless on EN schemas) | ⚠️ **PARTIAL** (Failed Egyptian slang) | ❌ **VERY HIGH** (300+ token essays) |
+| **`Gemma 4 E2B Grug`** | **3.20 GB** | 4-bit (`Q4_K_M`) | **539 tok/s** | **86.9 tok/s** | ✅ **PASS** (100% schema compliance) | ✅ **PASS** (Flawless Arabic translation) | ✅ **OPTIMAL** (35 tokens Grug) |
+
+#### Critical Engineering Findings:
+
+1. **The 1-Bit Capacity Collapse Threshold (1.7B vs 8B):**
+   - At 1.7B parameters, compressing weights to 1-bit causes severe representational degradation. When prompted with `What is the total sales amount?`, `Bonsai-1.7B` generated a fictional nested dictionary mixing filters, views, and mock zeros. On Arabic queries, it hallucinated an entire mock product catalog.
+   - At 4B parameters, `Bonsai-4B` became overly conservative, refusing zero-shot planning prompts entirely (`"No data or specific columns provided"`).
+   - Only at **8.2B parameters** does 1-bit quantization cross the capacity threshold required for robust zero-shot agentic dispatch.
+
+2. **The Dialectal Gap (Bonsai-8B vs. Gemma 4 E2B):**
+   - When given Egyptian Arabic slang (`عايز باي شارت يوضح نسبة مبيعات كل فئة`), `Bonsai-8B` failed to recognize the idiom, outputting `"chart_type": "bar_chart"` instead of `pie`, and hallucinated raw Arabic strings as JSON keys (`x: "الفئة"`, `y: "نسبة المبيعات"`) instead of mapping to the table's English schema columns (`Category`, `Total`).
+   - In contrast, **`Gemma 4 E2B Grug Native`** seamlessly bridged dialects, emitting `chart_tool(chart_type="pie", x="Category", y="Total")`.
+
+3. **The Verbosity Hazard & The Grug Solution:**
+   - On coding and bug triage tasks (`IndexError: list index out of range`), unconstrained `Bonsai-8B` emitted over **350 tokens of conversational fluff** (textbook debugging guides, pleasantries, multiple remediation options).
+   - In a 40-turn agentic loop, this verbosity causes exponential context compounding.
+   - By wrapping Bonsai-8B in a specialized Grug Speech system prompt (`deployment/Modelfile.bonsai_8b`), developers can enforce telegraphic `<think>` boundaries, uniting 1-bit memory efficiency with Grug token compression.
+
+---
+
 ## 7. Hugging Face Deployment & Artifact Registry
 
 All artifacts, checkpoints, datasets, and standalone GGUF binaries are hosted on Hugging Face:

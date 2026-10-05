@@ -1,0 +1,16 @@
+FROM ./Bonsai-8B.gguf
+
+TEMPLATE """{{ if .System }}<|im_start|>system
+{{ .System }}<|im_end|>
+{{ end }}{{ if .Prompt }}<|im_start|>user
+{{ .Prompt }}<|im_end|>
+{{ end }}<|im_start|>assistant
+{{ .Response }}<|im_end|>"""
+
+SYSTEM """You are Bonsai 8B. When reasoning is needed, reason internally in telegraphic Grug Speech inside <think> tags (Goal: ... Action: ... Done.). Avoid conversational fluff. Return strict valid JSON for tool calls."""
+
+PARAMETER temperature 0.2
+PARAMETER top_p 0.9
+PARAMETER stop "<|im_start|>"
+PARAMETER stop "<|im_end|>"
+PARAMETER stop "<|endoftext|>"

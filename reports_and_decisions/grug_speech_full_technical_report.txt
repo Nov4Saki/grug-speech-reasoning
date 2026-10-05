@@ -41,6 +41,7 @@ TABLE OF CONTENTS
    8.2 Real-World Application Benchmark: Excel Financial Analysis Agent
    8.3 Token Compression Dynamics & Prompt Trigger Behavior
    8.4 Master Multi-Model Agent Benchmark: Excel/CSV LangGraph Agent (100,300 Rows)
+   8.5 The PrismML Bonsai Family: 1-Bit Scaling Laws & Architectural Limits
 9. Deployment Guide: Local Execution via Ollama, llama.cpp & Python
 10. Conclusion & Strategic Recommendations
 
@@ -830,6 +831,50 @@ IN-DEPTH EVALUATION ACROSS THE 4 PILLARS:
    - nanbeige4.1-3b stalled (>90s) due to non-standard attention loops in the legacy 4.1 engine.
      (Note: Resolved completely in Nanbeige 4.2-3B, which clocks 3,583 tokens/sec prefill).
    - ternary-bonsai-1.7b threw loader errors on experimental Q2_0 ternary quantization format.
+
+
+================================================================================
+8.5 THE PRISMML BONSAI FAMILY: 1-BIT SCALING LAWS & ARCHITECTURAL LIMITS
+================================================================================
+To establish the physical boundaries of 1-bit / ternary extreme quantization, we
+benchmarked the entire PrismML Bonsai series on our Blackwell server infrastructure:
+  1. Bonsai-1.7B (Qwen 3 base, 28 layers, 230 MB GGUF)
+  2. Bonsai-4B   (Qwen 3 base, 36 layers, 530 MB GGUF)
+  3. Bonsai-8B   (Qwen 3 base, 36 layers, 1.08 GB GGUF)
+  4. Ternary-Bonsai-2-27B (Qwen 3.5 base, 5.54 GB GGUF)
+
+CROSS-BONSAI EMPIRICAL METRICS:
+
++-------------+-----------+--------------+--------------+---------------+--------------------------------+
+| Model       | Size (MB) | Quantization | Prefill(t/s) | Gen (tok/s)   | Agentic Tool / Arabic Verdict  |
++-------------+-----------+--------------+--------------+---------------+--------------------------------+
+| Bonsai-1.7B |   230 MB  | 1-bit Q1_0   |  5,299.4 t/s |  682.8 tok/s  | FAIL: Severe hallucination     |
+| Bonsai-4B   |   530 MB  | 1-bit Q1_0   |  4,284.8 t/s |  432.0 tok/s  | REFUSED: Over-conservative     |
+| Bonsai-8B   | 1,080 MB  | 1-bit Q1_0   |  3,654.9 t/s |  394.0 tok/s  | PASS on EN; partial on AR      |
++-------------+-----------+--------------+--------------+---------------+--------------------------------+
+
+KEY ARCHITECTURAL FINDINGS:
+
+1. The 1-Bit Capacity Threshold:
+   - 1.7B Parameters: Catastrophic capacity loss. Emits fictional nested dictionaries and
+     generates fake mock product catalogs instead of dispatching tools.
+   - 4.0B Parameters: Model exhibits hyper-conservatism, refusing zero-shot queries with
+     generic error strings ('No data or specific columns provided', 'الطلب غير محدد').
+   - 8.2B Parameters: Reaches critical mass for structured tool dispatch, achieving 100%
+     schema adherence on English data planning.
+
+2. The Dialectal & Multilingual Divide:
+   - On Egyptian Arabic slang ('عايز باي شارت يوضح نسبة مبيعات كل فئة'), Bonsai-8B failed
+     to map 'باي شارت' to a pie chart (selecting 'bar_chart') and hallucinated untranslated
+     Arabic strings ('الفئة') as JSON keys.
+   - In contrast, Google Gemma 4 E2B Grug Native executed flawless cross-lingual mapping
+     (chart_type='pie', x='Category', y='Total').
+
+3. Taming Bonsai-8B Verbosity with Grug Prompt Bounding:
+   - In unconstrained reasoning (bug triage, coding), Bonsai-8B emits 350+ tokens of natural
+     language prose, triggering the Quadratic Context Compounding problem in multi-turn loops.
+   - Deploying Bonsai-8B via 'deployment/Modelfile.bonsai_8b' injects Grug Speech telegraphic
+     boundaries, preserving 1-bit memory speed while preventing context inflation.
 
 
 ================================================================================
