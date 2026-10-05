@@ -302,6 +302,89 @@ The technical investigation clarifies two operational dynamics:
 
 ---
 
+### 6.6 Master Multi-Model Agent Benchmark: Comprehensive Evaluation on Excel/CSV LangGraph Agent
+
+To rigorously benchmark local open-weights LLMs in a production-grade autonomous workflow, we evaluated **8 models** against the **LangGraph Data Analysis Agent** operating over an enterprise dataset (`sales.xlsx`, 100,300 rows). Each model was evaluated in strict isolation, excluding model-loading overhead, and measured across **Quality** (schema compliance and column mapping), **Quantity** (VRAM footprint and token overhead), **Speed** (Time to First Token [TTFT] and token decode rate), and **Value**.
+
+#### Master Leaderboard & Quadrant Chart
+
+```mermaid
+quadrantChart
+    title Value vs Latency Trade-off
+    x-axis "High Latency (Slow)" --> "Low Latency (Fast)"
+    y-axis "Low Reasoning Quality" --> "High Reasoning Quality"
+    quadrant-1 "Ideal Daily Drivers (Top Value)"
+    quadrant-2 "Fast but Fragile"
+    quadrant-3 "Heavy / Impractical"
+    quadrant-4 "Accurate but Sluggish"
+    "bonsai-8b": [0.88, 0.86]
+    "gemma-4-e2b-grugspeech": [0.76, 0.82]
+    "qwen3.5-2b-claude-distilled": [0.72, 0.80]
+    "qwen3.5-2b-grugspeech": [0.75, 0.65]
+    "minicpm5-2b": [0.30, 0.85]
+    "qwen3.5-4b": [0.42, 0.83]
+    "nanbeige4.1-3b": [0.12, 0.40]
+```
+
+| Rank | Model Name | Param Size | VRAM Footprint | TTFT (Prompt Eval) | Decode Speed | Avg Latency | Schema Compliance | Value Tier |
+| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| 🥇 | **`bonsai-8b`** | **8.2B** | **1.08 GiB** | **2.70s** ⚡ | **78.9 t/s** | **4.03s** | **100%** | **S-Tier** *(Best Overall)* |
+| 🥈 | **`gemma-4-e2b-grugspeech-native`** | **4.6B** | **3.18 GiB** | **3.88s** | **86.9 t/s** | **5.11s – 6.05s** | **100% (with think)** | **A+ Tier** *(Best Fast Specialist)* |
+| 🥉 | **`qwen3.5-2b-claude-distilled`** | **1.9B** | **1.90 GiB** | **5.82s** | **97.6 t/s** ⚡ | **7.38s** | **100%** | **A Tier** *(Fastest Token Gen)* |
+| 4 | **`qwen3.5-2b-grugspeech`** | **1.9B** | **1.27 GiB** | **5.10s** | **82.1 t/s** | **5.27s** | **66.7%** | **B Tier** *(Occasional plan drop)* |
+| 5 | **`qwen3.5-4b`** | **4.0B** | **4.06 GiB** | **18.06s** | **49.2 t/s** | **20.84s** | **100%** | **B Tier** *(Accurate, High TTFT)* |
+| 6 | **`minicpm5-2b`** | **2.0B** | **1.93 GiB** | **31.31s** | **85.7 t/s** | **25.0s – 32.5s** | **83.3%** | **C+ Tier** *(High prefill latency)* |
+| 7 | **`nanbeige4.1-3b`** | **3.0B** | **2.28–3.90 GiB** | *>90s* | — | *>90s* (Stalled) | Stalled | **D Tier** *(Unsuitable on legacy engine)* |
+| 8 | **`ternary-bonsai-1.7b`** | **1.7B** | **0.46 GiB** | — | — | — | Load Error | **F Tier** *(Unsupported quant format)* |
+
+---
+
+#### In-Depth Architectural & Runtime Diagnostics Across the 4 Pillars
+
+##### 1. `bonsai-8b` — 🥇 The S-Tier Leaderboard Winner
+- **The 1-Bit / Ternary Architecture Revolution:** Developed by PrismML (March 2026), `bonsai-8b` employs end-to-end 1-bit / 1.58-bit ternary quantization across all weights (embeddings, attention projections, MLP, and LM head). This enables an **8.2B parameter model to fit completely in 1.08 GiB VRAM** (~14x compression vs. FP16).
+- **Zero Memory-Bandwidth Choke:** Because the entire model footprint is only 1.08 GiB, memory transfers during prompt prefill are drastically minimized, yielding the fastest Time to First Token (**TTFT of 2.70s**).
+- **Superior Multi-Step Reasoning:** Having an effective 8.2B parameter base provides the contextual capacity needed to track intermediate column state across multi-step LangGraph tool calls without hallucinating column names (`100% plan score`).
+
+##### 2. `gemma-4-e2b-grugspeech-native` — 🥈 The Best Fast Specialist (A+ Tier)
+- **Terse Agentic Elicitation:** When prompted with the trigger `"Reason in Grug Speech inside <think> tags"`, the model collapses intermediate CoT into ultra-dense 3-bullet goal plans (~150–190 tokens).
+- **Zero Syntax Bleed:** Achieved 100% JSON schema compliance with zero markdown fencing bleed or tool parameter corruption.
+- **Multilingual Domain Mapping:** Impeccably translated complex Arabic queries (`احسب متوسط السعر` $\to$ `mean`, `باي شارت` $\to$ `pie`).
+- **Snappy Response Latency:** Prompt prefill at **3.88s** and decode throughput of **86.9 t/s** deliver full multi-step JSON tool plans in **5.11s – 6.05s**.
+
+##### 3. `qwen3.5-2b-claude-distilled` — 🥉 Fastest Raw Decoder (A Tier)
+- **Decode Throughput Champion:** Clocked the highest sustained generation rate at **97.6 tokens/sec**.
+- **Solid Schema Retention:** Emits structured plans reliably with a total turnaround latency of **7.38s**.
+
+##### 4. The TTFT & Prefill Bottleneck Analysis (`minicpm5-2b` & `qwen3.5-4b`)
+- **`qwen3.5-4b`:** While reaching 100% schema accuracy, the model incurred an **18.06s prefill delay** on the 900+ token agent prompt (total latency: **20.84s**).
+- **`minicpm5-2b`:** MiniCPM5 demonstrated strong decoding throughput (**85.7 t/s**), but suffered from a **31.31s TTFT bottleneck** (total latency: **32.48s**). In standard `llama.cpp` / Ollama runtimes, MiniCPM5's 42 transformer layers and 131k context window with complex YaRN/RoPE frequency scaling introduce severe attention compute overhead unless explicit RoPE scaling flags (`--rope-freq-scale`) and tight context limits are provided.
+
+##### 5. Legacy Engine Failures & The Nanbeige 4.2 Resolution
+- **`nanbeige4.1-3b` (Stalled >90s):** The older 4.1 release utilized a non-standard attention loop that caused thread lockups during prompt prefill in default `llama.cpp` builds.
+- **The Solution — `Nanbeige4.2-3B-GrugSpeech-Native`:** Our newly trained and quantized **Nanbeige 4.2-3B** (July 2026 release, 22 layers, SDPA architecture) completely resolves this issue, achieving **3,583 tokens/sec prompt prefill** (the fastest of any tested model) and **218.1 tokens/sec decode speed**.
+- **`ternary-bonsai-1.7b` (Load Error):** Experimental ternary quantization (`{-1, 0, +1}`) in `Q2_0` requires bleeding-edge bespoke matrix multiplication kernels not present in standard production inference runtimes.
+
+---
+
+#### Side-by-Side Metric Matrix
+
+```text
+┌──────────────────────────────────────────────┬──────────────┬────────────┬─────────────┬──────────────┬────────────┐
+│ Model Name                                   │ Memory (GB)  │ TTFT (s)   │ Speed (t/s) │ Latency (s)  │ Plan Score │
+├──────────────────────────────────────────────┼──────────────┼────────────┼─────────────┼──────────────┼────────────┤
+│ bonsai-8b                                    │ 1.08 GiB     │ 2.70s      │ 78.9 t/s    │ 4.03s        │ 100%       │
+│ gemma-4-e2b-grugspeech-native                │ 3.18 GiB     │ 3.88s      │ 86.9 t/s    │ 6.05s        │ 100%*      │
+│ qwen3.5-2b-claude-distilled                  │ 1.90 GiB     │ 5.82s      │ 97.6 t/s    │ 7.38s        │ 100%       │
+│ qwen3.5-2b-grugspeech                        │ 1.27 GiB     │ 5.10s      │ 82.1 t/s    │ 5.27s        │ 66.7%      │
+│ qwen3.5-4b                                   │ 4.06 GiB     │ 18.06s     │ 49.2 t/s    │ 20.84s       │ 100%       │
+│ minicpm5-2b                                  │ 1.93 GiB     │ 31.31s     │ 85.7 t/s    │ 32.48s       │ 83.3%      │
+└──────────────────────────────────────────────┴──────────────┴────────────┴─────────────┴──────────────┴────────────┘
+* When guided by native Grug <think> clause.
+```
+
+---
+
 ## 7. Hugging Face Deployment & Artifact Registry
 
 All artifacts, checkpoints, datasets, and standalone GGUF binaries are hosted on Hugging Face:

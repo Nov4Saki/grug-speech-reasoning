@@ -37,6 +37,10 @@ TABLE OF CONTENTS
    7.4 Speculative Decoding & Multi-Token Prediction (MTP) Performance Evaluation
    7.5 Google Gemma 4 E2B Architecture & Runtime Verification
 8. Qualitative Multi-Field Prompt & Output Showcase (Side-by-Side Verification)
+   8.1 Coding, Bug Triage & Database Architecture
+   8.2 Real-World Application Benchmark: Excel Financial Analysis Agent
+   8.3 Token Compression Dynamics & Prompt Trigger Behavior
+   8.4 Master Multi-Model Agent Benchmark: Excel/CSV LangGraph Agent (100,300 Rows)
 9. Deployment Guide: Local Execution via Ollama, llama.cpp & Python
 10. Conclusion & Strategic Recommendations
 
@@ -747,6 +751,86 @@ The empirical investigation reveals two critical factors:
      and 100% JSON syntactic integrity. Generation speed is ~73-87 tok/s.
    - Qwen 3.5 4B: Balanced coder with MTP speculative capability. Generation speed 208-257 tok/s.
    - MiniCPM5-2B: Extreme generation throughput (393.1 tok/s) and tiny footprint (1.49 GB).
+
+================================================================================
+8.4 MASTER MULTI-MODEL AGENT BENCHMARK: EXCEL/CSV LANGGRAPH AGENT (100,300 ROWS)
+================================================================================
+To evaluate real-world production performance in autonomous agent loops, we benchmarked
+8 local open-weights LLMs against the LangGraph Data Analysis Agent operating on
+'sales.xlsx' (100,300 rows). Each model was tested in strict isolation, excluding
+model-loading overhead, and measured across Quality, Quantity, Speed, and Value.
+
+MASTER LEADERBOARD & SUMMARY:
+
++------+--------------------------------+----------+-----------+-----------+----------+-------------+---------------+
+| Rank | Model Name                     | Size     | VRAM (GB) | TTFT (s)  | Gen(t/s) | Latency (s) | Schema Comp.  | Tier          |
++------+--------------------------------+----------+-----------+-----------+----------+-------------+---------------+
+|  1   | bonsai-8b                      | 8.2B     | 1.08 GiB  |  2.70s    | 78.9 t/s |  4.03s      | 100.0%        | S-Tier (Best) |
+|  2   | gemma-4-e2b-grugspeech-native  | 4.6B     | 3.18 GiB  |  3.88s    | 86.9 t/s |  5.11-6.05s | 100.0% (think)| A+ Tier       |
+|  3   | qwen3.5-2b-claude-distilled    | 1.9B     | 1.90 GiB  |  5.82s    | 97.6 t/s |  7.38s      | 100.0%        | A Tier        |
+|  4   | qwen3.5-2b-grugspeech          | 1.9B     | 1.27 GiB  |  5.10s    | 82.1 t/s |  5.27s      |  66.7%        | B Tier        |
+|  5   | qwen3.5-4b                     | 4.0B     | 4.06 GiB  | 18.06s    | 49.2 t/s | 20.84s      | 100.0%        | B Tier        |
+|  6   | minicpm5-2b                    | 2.0B     | 1.93 GiB  | 31.31s    | 85.7 t/s | 32.48s      |  83.3%        | C+ Tier       |
+|  7   | nanbeige4.1-3b                 | 3.0B     | 2.28 GiB  | >90.0s    |   --     | >90.0s      | Stalled       | D Tier        |
+|  8   | ternary-bonsai-1.7b            | 1.7B     | 0.46 GiB  |   --      |   --     |    --       | Load Error    | F Tier        |
++------+--------------------------------+----------+-----------+-----------+----------+-------------+---------------+
+
+VALUE VS. LATENCY QUADRANT:
+                   High Reasoning Quality
+                             ^
+                             |       bonsai-8b [S-Tier]
+      minicpm5-2b            |       gemma-4-e2b-grugspeech [A+]
+      qwen3.5-4b             |       qwen3.5-2b-claude [A]
+                             |       qwen3.5-2b-grugspeech [B]
+  <--------------------------+--------------------------->
+  High Latency (Slow)        |         Low Latency (Fast)
+                             |
+      nanbeige4.1-3b         |
+                             v
+                   Low Reasoning Quality
+
+IN-DEPTH EVALUATION ACROSS THE 4 PILLARS:
+
+1. bonsai-8b -- S-Tier (The Benchmark Winner):
+   - Architecture: PrismML end-to-end 1-bit / 1.58-bit ternary representation across
+     embeddings, attention, MLP, and LM head. 8.2B parameters fit into 1.08 GiB VRAM.
+   - Quality (9.2/10): Flawless multi-turn column retention. Zero hallucination of intermediate
+     SQL aliases. Flawless Arabic understanding (احسب متوسط السعر -> aggregate_tool(mean)).
+   - Quantity (9.8/10): 8.2B model running in 1.08 GiB VRAM. Generates ~105-token dense plans.
+   - Speed (9.5/10): TTFT of 2.70s (fastest prefill of all models due to tiny memory transfer),
+     78.9 tokens/sec decode throughput, 4.03s total turnaround latency.
+   - Verdict: S-Tier. The gold standard for edge intelligence density.
+
+2. gemma-4-e2b-grugspeech-native -- A+ Tier (Best Fast Specialist):
+   - Architecture: Google Gemma 4 with native Grug Speech LoRA distillation (Novasaki).
+   - Quality (8.5/10): Highly receptive to <think> tags. When prompted with 'Reason in Grug
+     Speech inside <think> tags', it outputs concise 3-bullet internal goal plans with 100%
+     JSON schema compliance and zero markdown codefence bleed. Perfect Egyptian Arabic slang
+     translation (عايز باي شارت -> chart_tool(chart_type='pie')).
+   - Quantity (8.5/10): 4.6B model footprint at 3.18 GiB VRAM. Generates ~150-190 tokens.
+   - Speed (9.0/10): TTFT of 3.88s, 86.9 tokens/sec decode, 5.11s - 6.05s total latency.
+   - Verdict: A+ Tier. Extremely solid, predictable, and fast for backend agent orchestration.
+
+3. qwen3.5-2b-claude-distilled -- A Tier (Fastest Raw Decoder):
+   - Quality (8.2/10): Strong schema retention, occasional verbose markdown plans.
+   - Quantity (8.8/10): 1.9B model in 1.90 GiB VRAM. Outputs ~152 tokens.
+   - Speed (8.8/10): TTFT of 5.82s, 97.6 tokens/sec (fastest generation rate), 7.38s total.
+   - Verdict: A Tier. Top recommendation if raw token decoding speed is paramount.
+
+4. qwen3.5-4b -- B Tier (High Reasoning, Slow Prefill):
+   - Accurate tool arguments and zero column drop, but TTFT prompt prefill took 18.06s on
+     the 900-token prompt (total latency: 20.84s), making it sluggish for real-time loops.
+
+5. minicpm5-2b -- C+ Tier (High Intermediate Accuracy, Slow Prefill):
+   - Strong intermediate state tracking across 3-step loops, but spent 31.31s on prompt prefill
+     (total latency: 32.48s). Cause: MiniCPM5's 42 layers and 131k context window with complex
+     YaRN/RoPE scaling choke default llama.cpp attention prefill without --rope-freq-scale flags.
+
+6. nanbeige4.1-3b & ternary-bonsai-1.7b -- Incompatible / Stalled:
+   - nanbeige4.1-3b stalled (>90s) due to non-standard attention loops in the legacy 4.1 engine.
+     (Note: Resolved completely in Nanbeige 4.2-3B, which clocks 3,583 tokens/sec prefill).
+   - ternary-bonsai-1.7b threw loader errors on experimental Q2_0 ternary quantization format.
+
 
 ================================================================================
 9. DEPLOYMENT GUIDE: LOCAL EXECUTION VIA OLLAMA, LLAMA.CPP & PYTHON
