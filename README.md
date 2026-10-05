@@ -25,6 +25,7 @@ An end-to-end framework to compress long-form Chain-of-Thought (CoT) reasoning i
 
 | Model | Architecture | GGUF Binaries Available | Min VRAM | Hugging Face Repository |
 | :--- | :--- | :--- | :--- | :--- |
+| **MiniCPM 5 2B Grug Native** | 42 Layers (Llama Causal LM) | `MiniCPM5-2B-GrugSpeech-Q4_K_M.gguf` (1.5 GB)<br>`MiniCPM5-2B-GrugSpeech-Q8_0.gguf` (2.5 GB) | ~2.1 GB | [`Novasaki/MiniCPM5-2B-GrugSpeech-Native`](https://huggingface.co/Novasaki/MiniCPM5-2B-GrugSpeech-Native) |
 | **Qwen 3.5 4B Grug (Standard)** | 32 Layers (Causal LM) | `Qwen3.5-4B-GrugSpeech-Q4_K_M.gguf` (2.6 GB)<br>`Qwen3.5-4B-GrugSpeech-Q8_0.gguf` (4.2 GB) | ~3.4 GB | [`Novasaki/Qwen3.5-4B-GrugSpeech-Native`](https://huggingface.co/Novasaki/Qwen3.5-4B-GrugSpeech-Native) |
 | **Qwen 3.5 4B Grug (Native MTP)** | 33 Layers (MTP NextN) | `Qwen3.5-4B-GrugSpeech-MTP-Q4_K_M.gguf` (2.64 GB)<br>`Qwen3.5-4B-GrugSpeech-MTP-Q8_0.gguf` (4.61 GB) | ~3.6 GB | [`Novasaki/Qwen3.5-4B-GrugSpeech-Native`](https://huggingface.co/Novasaki/Qwen3.5-4B-GrugSpeech-Native) |
 | **Qwen 3.5 2B Grug** | 24 Layers (Causal LM) | `Qwen3.5-2B-GrugSpeech-Q4_K_M.gguf` (1.2 GB)<br>`Qwen3.5-2B-GrugSpeech-Q8_0.gguf` (1.9 GB) | ~1.8 GB | [`Novasaki/Qwen3.5-2B-GrugSpeech-Q8`](https://huggingface.co/Novasaki/Qwen3.5-2B-GrugSpeech-Q8) |
@@ -88,11 +89,13 @@ Turn 40 | Verbose (492.0k tok): ############ | Grug (49.2k tok): **** (10x Savin
 ├── training/                          <- Cross-family QLoRA fine-tuning scripts
 │   ├── train_qwen_grug.py             <- Qwen 3.5 2B trainer
 │   ├── train_qwen3.5_4b_grug.py       <- Qwen 3.5 4B native trainer
-│   └── train_gemma4_grug.py           <- Gemma 4 E2B trainer (with clippable linear regex fix)
+│   ├── train_gemma4_grug.py           <- Gemma 4 E2B trainer (with clippable linear regex fix)
+│   └── train_minicpm5_2b_grug.py      <- MiniCPM5 2B trainer (QLoRA 8-bit, 42 layers)
 │
 ├── quantization_and_export/           <- LoRA weight merge & GGUF compilation
 │   ├── merge_and_export_gguf.py       <- bfloat16 adapter merger & llama.cpp export (Q8_0, Q4_K_M)
-│   └── export_gemma4_gguf.py          <- Gemma 4 specific GGUF conversion script
+│   ├── export_gemma4_gguf.py          <- Gemma 4 specific GGUF conversion script
+│   └── export_minicpm5_gguf.py        <- MiniCPM5 specific GGUF conversion & quantization script
 │
 ├── evaluation/                        <- Evaluation & validation harnesses
 │   ├── evaluate_grug_model.py         <- Benchmark evaluation (GSM8K, ARC, systems)
@@ -104,7 +107,7 @@ Turn 40 | Verbose (492.0k tok): ############ | Grug (49.2k tok): **** (10x Savin
 │   └── seed/                          <- Initial converted reasoning dataset
 │
 ├── reports_and_decisions/             <- Comprehensive research documentation
-│   ├── grug_speech_full_technical_report.txt <- 545-line technical report with full ASCII graphs
+│   ├── grug_speech_full_technical_report.txt <- Comprehensive technical report with full ASCII graphs
 │   ├── grug_speech_technical_report.md       <- Formatted markdown report with mermaid diagrams
 │   ├── grug_benchmark_data_points.json       <- Raw benchmark numbers for graph plotting
 │   ├── AUDIT_REPORT.md                       <- Subagent dataset audit report
@@ -115,6 +118,7 @@ Turn 40 | Verbose (492.0k tok): ############ | Grug (49.2k tok): **** (10x Savin
 └── deployment/                        <- Production deployment configs
     ├── Modelfile.qwen3.5_4b           <- Ollama Modelfile for Qwen 3.5 4B
     ├── Modelfile.gemma4_e2b           <- Ollama Modelfile for Gemma 4 E2B
+    ├── Modelfile.minicpm5_2b          <- Ollama Modelfile for MiniCPM5 2B
     └── run_llama_cli.sh               <- Shell script for llama-cli inference
 ```
 

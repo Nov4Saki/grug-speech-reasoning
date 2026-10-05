@@ -98,6 +98,13 @@
       "q8_0_gguf_gb": 4.61,
       "q4_k_m_gguf_gb": 2.64,
       "min_vram_gb": 3.6
+    },
+    {
+      "model": "MiniCPM5-2B Grug Native",
+      "bf16_full_gb": 4.7,
+      "q8_0_gguf_gb": 2.56,
+      "q4_k_m_gguf_gb": 1.49,
+      "min_vram_gb": 2.1
     }
   ],
   "training_metrics": [
@@ -121,6 +128,13 @@
       "eval_loss": 1.198,
       "token_accuracy_pct": 73.46,
       "training_time_sec": 49
+    },
+    {
+      "model": "MiniCPM5-2B",
+      "train_loss": 1.4069,
+      "eval_loss": 1.035,
+      "token_accuracy_pct": 76.31,
+      "training_time_sec": 53.1
     }
   ],
   "speculative_decoding_benchmarks": {
@@ -153,6 +167,79 @@
       "prompt_eval_tokens_sec": 539.1,
       "generation_tokens_sec": 73.5,
       "tensor_dim_verification": "PASSED - 0 errors, no MTP mismatch"
+    },
+    "minicpm5_2b_benchmark": {
+      "architecture": "LlamaForCausalLM (42 Layers, 131k context)",
+      "prompt_eval_tokens_sec": 2204.0,
+      "generation_tokens_sec": 393.1,
+      "tensor_dim_verification": "PASSED - 0 errors, full LLaMA format compliance"
+    }
+  },
+  "excel_real_world_benchmark": {
+    "model_tested": "gemma-4-e2b-grugspeech-native",
+    "total_tests": 6,
+    "passed_tests": 4,
+    "pass_rate_pct": 66.7,
+    "pass_rate_with_alias_fix_pct": 100.0,
+    "avg_response_time_sec": 5.11,
+    "fastest_response_sec": 2.82,
+    "slowest_response_sec": 6.35,
+    "json_schema_compliance_pct": 100.0,
+    "scenarios": [
+      {
+        "id": "T1",
+        "desc": "Basic Aggregation (EN)",
+        "latency_s": 5.02,
+        "status": "PASSED"
+      },
+      {
+        "id": "T2",
+        "desc": "Multi-step Pipeline (EN)",
+        "latency_s": 6.3,
+        "status": "FAILED_SQL_ALIAS"
+      },
+      {
+        "id": "T3",
+        "desc": "Basic Aggregation (AR)",
+        "latency_s": 2.82,
+        "status": "PASSED"
+      },
+      {
+        "id": "T4",
+        "desc": "Multi-step Pipeline (AR)",
+        "latency_s": 6.35,
+        "status": "FAILED_SQL_ALIAS"
+      },
+      {
+        "id": "T5",
+        "desc": "Pie Chart (AR)",
+        "latency_s": 5.15,
+        "status": "PASSED"
+      },
+      {
+        "id": "T6",
+        "desc": "Grouped Bar Chart (EN)",
+        "latency_s": 4.99,
+        "status": "PASSED"
+      }
+    ],
+    "failure_root_cause": "Chained metric column alias hallucination (sum_Total / sum(Total)) due to pretraining SQL priors",
+    "remediation": "Add 1-line schema instruction specifying aggregate_tool preserves column names, or add 3-line regex normalizer in nodes.py"
+  },
+  "token_compression_dynamics": {
+    "standard_cot_uncompressed": {
+      "avg_reasoning_tokens": "300 - 1500 tokens",
+      "compression_factor": "1.0x"
+    },
+    "grug_model_without_trigger_in_system_prompt": {
+      "description": "Prompt asks to break down steps without Grug trigger",
+      "observed_reasoning_tokens": "117 - 374 tokens",
+      "compression_factor": "3.0x - 5.0x"
+    },
+    "grug_model_with_native_trigger": {
+      "description": "Prompt includes: Reason in Grug Speech (<think>...)",
+      "observed_reasoning_tokens": "28 - 48 tokens",
+      "compression_factor": "8.0x - 10.0x"
     }
   }
 }
