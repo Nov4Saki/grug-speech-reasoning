@@ -23,11 +23,12 @@ An end-to-end framework to compress long-form Chain-of-Thought (CoT) reasoning i
 
 ## 📦 Model Zoo & Hugging Face Hub Repositories
 
-| Model | Parameters | Context Window | GGUF Q8_0 | GGUF Q4_K_M | Min VRAM | Hugging Face Repository |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Qwen 3.5 2B Grug** | 1.89B | 32k | 1.90 GB | 1.20 GB | ~1.8 GB | [`Novasaki/Qwen3.5-2B-GrugSpeech-Q8`](https://huggingface.co/Novasaki/Qwen3.5-2B-GrugSpeech-Q8) |
-| **Qwen 3.5 4B Grug Native** | 4.23B | 32k | 4.20 GB | 2.60 GB | ~3.4 GB | [`Novasaki/Qwen3.5-4B-GrugSpeech-Native`](https://huggingface.co/Novasaki/Qwen3.5-4B-GrugSpeech-Native) |
-| **Gemma 4 E2B Grug Native** | 5.13B | 8k | 4.70 GB | 3.20 GB | ~4.0 GB | [`Novasaki/Gemma-4-E2B-GrugSpeech-Native`](https://huggingface.co/Novasaki/Gemma-4-E2B-GrugSpeech-Native) |
+| Model | Architecture | GGUF Binaries Available | Min VRAM | Hugging Face Repository |
+| :--- | :--- | :--- | :--- | :--- |
+| **Qwen 3.5 4B Grug (Standard)** | 32 Layers (Causal LM) | `Qwen3.5-4B-GrugSpeech-Q4_K_M.gguf` (2.6 GB)<br>`Qwen3.5-4B-GrugSpeech-Q8_0.gguf` (4.2 GB) | ~3.4 GB | [`Novasaki/Qwen3.5-4B-GrugSpeech-Native`](https://huggingface.co/Novasaki/Qwen3.5-4B-GrugSpeech-Native) |
+| **Qwen 3.5 4B Grug (Native MTP)** | 33 Layers (MTP NextN) | `Qwen3.5-4B-GrugSpeech-MTP-Q4_K_M.gguf` (2.64 GB)<br>`Qwen3.5-4B-GrugSpeech-MTP-Q8_0.gguf` (4.61 GB) | ~3.6 GB | [`Novasaki/Qwen3.5-4B-GrugSpeech-Native`](https://huggingface.co/Novasaki/Qwen3.5-4B-GrugSpeech-Native) |
+| **Qwen 3.5 2B Grug** | 24 Layers (Causal LM) | `Qwen3.5-2B-GrugSpeech-Q4_K_M.gguf` (1.2 GB)<br>`Qwen3.5-2B-GrugSpeech-Q8_0.gguf` (1.9 GB) | ~1.8 GB | [`Novasaki/Qwen3.5-2B-GrugSpeech-Q8`](https://huggingface.co/Novasaki/Qwen3.5-2B-GrugSpeech-Q8) |
+| **Gemma 4 E2B Grug Native** | 35 Layers (Conditional) | `Gemma4-E2B-GrugSpeech-Q4_K_M.gguf` (3.2 GB)<br>`Gemma4-E2B-GrugSpeech-Q8_0.gguf` (4.7 GB) | ~4.0 GB | [`Novasaki/Gemma-4-E2B-GrugSpeech-Native`](https://huggingface.co/Novasaki/Gemma-4-E2B-GrugSpeech-Native) |
 
 **Published Datasets on Hugging Face:**
 * Hierarchical Multi-Field Dataset: [`Novasaki/grug-multifield-reasoning-dataset`](https://huggingface.co/datasets/Novasaki/grug-multifield-reasoning-dataset)
