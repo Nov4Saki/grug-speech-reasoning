@@ -210,6 +210,32 @@ The table below details all 7 test cases across the 11 isolated models:
 
 ---
 
+
+### 5.2 Extended Dialectal & Domain-Specific Benchmark (Gulf, Egyptian Slang & Asyncio Concurrency)
+
+To push the models beyond standard evaluation, we introduced 4 rigorous multi-dialectal and systems challenges:
+1. **E1 (Egyptian Slang Multi-Tool Pipeline):** *"عايز أعرف أكتر مدينة دفعت فلوس في الإلكترونيات وتعملي بار شارت"* (Filter Electronics $\to$ GroupBy City $\to$ Sum Total $\to$ Bar Chart).
+2. **E2 (Gulf Arabic Dialect Multi-Condition Filter):** *"طلع لي كل الطلبات اللي قيمتها فوق الالف ريال وتمت بنجاح ورتبها من الأعلى للأقل"* (Filter Total > 1000 & Status == Completed $\to$ Sort desc).
+3. **E3 (Financial Multi-Aggregation):** *"احسب متوسط السعر وإجمالي المبيعات لكل وسيلة دفع"* (GroupBy Payment_Method $\to$ mean Price & sum Total).
+4. **E4 (Python Asyncio Concurrency Triage):** *"RuntimeError: Task was destroyed but it is pending in asyncio loop. Explain root cause in Grug Speech and provide fix."*
+
+| Model Name | Type | E1 (Egypt Slang) | E2 (Gulf Dialect) | E3 (Dual Agg) | E4 (Asyncio Triage) | Pass Rate | Avg CoT (tok) |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **`bonsai-8b-prismml`** | Base (1-Bit) | ✅ **PASS** (1.23s) | ✅ **PASS** (1.14s) | ✅ **PASS** (1.23s) | ✅ **PASS** (1.47s) | **4/4 (100%)** | **0.0 t** |
+| **`qwen3.5-4b-grugspeech-native`** | Grug Native | ✅ **PASS** (2.12s) | ✅ **PASS** (1.97s) | ❌ FAIL(Schema) | ✅ **PASS** (1.60s) | **3/4 (75.0%)** | **43.3 t** |
+| **`gemma-4-e2b-grugspeech-native`** | Grug Native | ❌ FAIL(Schema) | ✅ **PASS** (2.35s) | ✅ **PASS** (2.23s) | ⚠️ FAIL(Intent) | **2/4 (50.0%)** | **35.5 t** |
+| `qwen3.5-4b-base` | Base Peer | ❌ FAIL(Schema) | ✅ **PASS** (2.29s) | ❌ FAIL(Schema) | ⚠️ FAIL(Intent) | 1/4 (25.0%) | 93.5 t |
+| `gemma-4-e2b-base` | Base Peer | ❌ FAIL(Schema) | ❌ FAIL(Schema) | ❌ FAIL(Schema) | ✅ **PASS** (2.43s) | 1/4 (25.0%) | 38.8 t |
+| **`minicpm5-2b-grugspeech-native`** | Grug Native | ❌ FAIL(Schema) | ❌ FAIL(Schema) | ❌ FAIL(Schema) | ✅ **PASS** (1.50s) | 1/4 (25.0%) | 45.8 t |
+| **`nanbeige4.2-3b-grugspeech-native`** | Grug Native | ❌ FAIL(Schema) | ❌ FAIL(Schema) | ❌ FAIL(Schema) | ✅ **PASS** (2.31s) | 1/4 (25.0%) | 47.0 t |
+
+#### Empirical Key Takeaways:
+1. **Grug Qwen 4B Dominance:** Outperformed Base Qwen 4B (**75.0% vs. 25.0%**). On Gulf dialect (E2), Grug Qwen completed the task in 1.97s using **52 reasoning tokens**, whereas Base Qwen burned **126 reasoning tokens** (2.42x more CoT tokens) to reach the same conclusion.
+2. **Bonsai-8B Strength with Explicit English Chart Prompts:** When the Egyptian prompt explicitly specified `بار شارت` ("bar chart"), Bonsai-8B's direct lexical mapping succeeded (`PASS`), contrasting with its failure on the idiomatic phrase `باي شارت` in T5.
+3. **Asyncio Concurrency Triage (E4):** Grug models compressed complex event loop lifecycle diagnosis (garbage collection of unreferenced tasks) into a crisp 36-token root cause + reference-retaining fix.
+
+---
+
 ## 6. Real-World Application Case Study: Excel LangGraph Agent (`sales.xlsx`)
 
 In production deployment, we evaluated these models against the live **LangGraph Data Analysis Agent** operating over an enterprise dataset of **100,300 rows** (`sales.xlsx`, 6.4 MB):

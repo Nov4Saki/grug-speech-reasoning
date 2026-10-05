@@ -84,6 +84,30 @@ All 11 models were evaluated across 7 rigorous test cases in strict isolation. B
 5. Error Rate & Intent: Valid JSON schema generation, tool name fidelity, parameter correctness, and absence of column hallucinations.
 6. Token Economy: Average CoT reasoning tokens per problem, total tokens generated, and reasoning compression ratio.
 
+
+==============================================================================================================
+2.3 EXTENDED DIALECTAL & DOMAIN-SPECIFIC BENCHMARK (GULF, EGYPTIAN SLANG & ASYNCIO)
+==============================================================================================================
+Tested 7 models across 4 high-difficulty challenges:
+- E1: Egyptian Slang Electronics City Chart ("عايز أعرف أكتر مدينة دفعت فلوس في الإلكترونيات وتعملي بار شارت")
+- E2: Gulf Dialect High-Value Orders ("طلع لي كل الطلبات اللي قيمتها فوق الالف ريال وتمت بنجاح ورتبها من الأعلى للأقل")
+- E3: Dual Aggregation ("احسب متوسط السعر وإجمالي المبيعات لكل وسيلة دفع")
+- E4: Asyncio Concurrency Triage ("RuntimeError: Task was destroyed but it is pending in asyncio loop")
+
++----------------------------------+---------------+-------------+-------------+-------------+-------------+-----------+----------+
+| Model Name                       | Type          | E1 (Egypt)  | E2 (Gulf)   | E3 (DualAgg)| E4 (Asyncio)| Pass Rate | Avg CoT  |
++----------------------------------+---------------+-------------+-------------+-------------+-------------+-----------+----------+
+| bonsai-8b-prismml                | Base (1-Bit)  | PASS(1.23s) | PASS(1.14s) | PASS(1.23s) | PASS(1.47s) | 4/4(100%) | 0.0 t    |
+| qwen3.5-4b-grugspeech-native     | Grug Native   | PASS(2.12s) | PASS(1.97s) | FAIL(Schema)| PASS(1.60s) | 3/4(75.0%)| 43.3 t   |
+| gemma-4-e2b-grugspeech-native    | Grug Native   | FAIL(Schema)| PASS(2.35s) | PASS(2.23s) | FAIL(Intent)| 2/4(50.0%)| 35.5 t   |
+| qwen3.5-4b-base                  | Base Peer     | FAIL(Schema)| PASS(2.29s) | FAIL(Schema)| FAIL(Intent)| 1/4(25.0%)| 93.5 t   |
+| gemma-4-e2b-base                 | Base Peer     | FAIL(Schema)| FAIL(Schema)| FAIL(Schema)| PASS(2.43s) | 1/4(25.0%)| 38.8 t   |
+| minicpm5-2b-grugspeech-native    | Grug Native   | FAIL(Schema)| FAIL(Schema)| FAIL(Schema)| PASS(1.50s) | 1/4(25.0%)| 45.8 t   |
+| nanbeige4.2-3b-grugspeech-native | Grug Native   | FAIL(Schema)| FAIL(Schema)| FAIL(Schema)| PASS(2.31s) | 1/4(25.0%)| 47.0 t   |
++----------------------------------+---------------+-------------+-------------+-------------+-------------+-----------+----------+
+
+Key Takeaway: Grug Qwen 4B outperformed Base Qwen 4B (75% vs. 25%). On Gulf Dialect (E2), Grug Qwen solved the problem in 1.97s using 52 reasoning tokens vs 126 reasoning tokens in Base Qwen (2.42x reduction).
+
 ==============================================================================================================
 3. DIRECT HEAD-TO-HEAD ARCHITECTURAL PROOF: GRUG NATIVE VS. BASE BASELINES
 ==============================================================================================================
