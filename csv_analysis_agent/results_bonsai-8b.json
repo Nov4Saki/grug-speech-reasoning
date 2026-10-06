@@ -1,0 +1,39 @@
+{
+  "model": "bonsai-8b",
+  "is_grug": false,
+  "results": [
+    {
+      "id": "Q1_AR_MultiStep",
+      "ttft": 3.706682700001693,
+      "decode": 1.2862174999972922,
+      "total": 4.992900199998985,
+      "tokens": 108,
+      "tps": 83.9671361960379,
+      "valid": true,
+      "think": "(N/A Standard Mode)",
+      "output": "{\n    \"steps\": [\n        {\n            \"tool_name\": \"filter_tool\",\n            \"tool_args\": { \"query\": \"Quantity > 5\" }\n        },\n        {\n            \"tool_name\": \"aggregate_tool\",\n            \"tool_args\": { \"by_column\": \"Category\", \"metric\": \"Total\", \"operation\": \"sum\" }\n        },\n        {\n            \"tool_name\": \"view_tool\",\n            \"tool_args\": { \"sort_by\": \"Total\", \"ascending\": true }\n        }\n    ]\n}"
+    },
+    {
+      "id": "Q2_EN_Chart_Grouped",
+      "ttft": 2.161562599998433,
+      "decode": 1.567687200004002,
+      "total": 3.7292498000024352,
+      "tokens": 123,
+      "tps": 78.45952942633326,
+      "valid": true,
+      "think": "(N/A Standard Mode)",
+      "output": "{\n    \"steps\": [\n        {\n            \"tool_name\": \"aggregate_tool\",\n            \"tool_args\": {\n                \"by_column\": \"Category\",\n                \"metric\": \"Total\",\n                \"group_by\": \"City\"\n            }\n        },\n        {\n            \"tool_name\": \"chart_tool\",\n            \"tool_args\": {\n                \"type\": \"bar\",\n                \"data\": \"aggregate_output\",\n                \"group_by\": \"Category\",\n                \"sort_by\": \"Category\",\n                \"ascending\": true,\n                \"title\": \"Total Sales by Category and City\"\n            }\n        }\n    ]\n}"
+    },
+    {
+      "id": "Q3_EN_MultiStep",
+      "ttft": 2.2192330000034417,
+      "decode": 1.1435309000007692,
+      "total": 3.362763900004211,
+      "tokens": 85,
+      "tps": 74.33117898252057,
+      "valid": true,
+      "think": "(N/A Standard Mode)",
+      "output": "{\n    \"steps\": [\n        {\n            \"tool_name\": \"filter_tool\",\n            \"tool_args\": { \"query\": \"Total > 500\" }\n        },\n        {\n            \"tool_name\": \"aggregate_tool\",\n            \"tool_args\": { \"by_column\": \"City\", \"metric\": \"Total\", \"operation\": \"sum\", \"sort\": \"descending\" }\n        }\n    ]\n}"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "model": "minicpm5-2b",
+  "is_grug": false,
+  "results": [
+    {
+      "id": "Q1_AR_MultiStep",
+      "ttft": 28.2170643999998,
+      "decode": 1.1564442000017152,
+      "total": 29.373508600001514,
+      "tokens": 99,
+      "tps": 85.60724330655397,
+      "valid": true,
+      "think": "(N/A Standard Mode)",
+      "output": "{\n    \"steps\": [\n        {\n            \"tool_name\": \"filter_tool\",\n            \"tool_args\": {\"query\": \"Quantity > 5\"}\n        },\n        {\n            \"tool_name\": \"aggregate_tool\",\n            \"tool_args\": {\"by\": \"Category\", \"metric\": \"Total\"}\n        },\n        {\n            \"tool_name\": \"view_tool\",\n            \"tool_args\": {\"sort_by\": \"Total\", \"ascending\": false}\n        }\n    ]\n}"
+    },
+    {
+      "id": "Q2_EN_Chart_Grouped",
+      "ttft": 44.06670490000397,
+      "decode": 1.0790807000012137,
+      "total": 45.14578560000518,
+      "tokens": 90,
+      "tps": 83.40432740563219,
+      "valid": true,
+      "think": "(N/A Standard Mode)",
+      "output": "{\n  \"steps\": [\n    {\n      \"tool_name\": \"aggregate_tool\",\n      \"tool_args\": { \"metric\": \"Total\", \"group_by\": [\"Category\",\"City\"] }\n    },\n    {\n      \"tool_name\": \"chart_tool\",\n      \"tool_args\": { \"type\": \"bar\", \"x\": \"Category\", \"y\": \"Total\", \"color\": \"City\" }\n    }\n  ]\n}"
+    },
+    {
+      "id": "Q3_EN_MultiStep",
+      "ttft": 21.646666599997843,
+      "decode": 1.2614451000044937,
+      "total": 22.908111700002337,
+      "tokens": 111,
+      "tps": 87.99431699374358,
+      "valid": true,
+      "think": "(N/A Standard Mode)",
+      "output": "{\n    \"steps\": [\n        {\n            \"tool_name\": \"filter_tool\",\n            \"tool_args\": { \"query\": \"Total > 500\" }\n        },\n        {\n            \"tool_name\": \"aggregate_tool\",\n            \"tool_args\": { \"group_by\": \"City\", \"column\": \"Total\", \"stat\": \"sum\" }\n        },\n        {\n            \"tool_name\": \"view_tool\",\n            \"tool_args\": { \"sort_by\": \"Total\", \"ascending\": false }\n        }\n    ]\n}"
+    }
+  ]
+}

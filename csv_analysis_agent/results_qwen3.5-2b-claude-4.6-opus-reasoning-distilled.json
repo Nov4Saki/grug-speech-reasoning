@@ -1,0 +1,39 @@
+{
+  "model": "qwen3.5-2b-claude-4.6-opus-reasoning-distilled",
+  "is_grug": false,
+  "results": [
+    {
+      "id": "Q1_AR_MultiStep",
+      "ttft": 5.7362224999960745,
+      "decode": 1.5511306000043987,
+      "total": 7.287353100000473,
+      "tokens": 149,
+      "tps": 96.05896498952278,
+      "valid": true,
+      "think": "(N/A Standard Mode)",
+      "output": "```json\n{\n    \"steps\": [\n        {\n            \"tool_name\": \"filter_tool\",\n            \"tool_args\": {\n                \"query_string\": \"Quantity > 5\"\n            }\n        },\n        {\n            \"tool_name\": \"aggregate_tool\",\n            \"tool_args\": {\n                \"group_by_column\": \"Category\",\n                \"metric_column\": \"Total\",\n                \"operation\": \"sum\"\n            }\n        },\n        {\n            \"tool_name\": \"view_tool\",\n            \"tool_args\": {\n                \"sort_by\": \"total\",\n                \"ascending\": false\n            }\n        }\n    ]\n}\n```"
+    },
+    {
+      "id": "Q2_EN_Chart_Grouped",
+      "ttft": 6.07286230000318,
+      "decode": 1.702448899995943,
+      "total": 7.775311199999123,
+      "tokens": 160,
+      "tps": 93.98226284523506,
+      "valid": true,
+      "think": "(N/A Standard Mode)",
+      "output": "{\n    \"steps\": [\n        {\n            \"tool_name\": \"view_tool\",\n            \"tool_args\": {\n                \"sort_by\": \"Category\"\n            }\n        },\n        {\n            \"tool_name\": \"chart_tool\",\n            \"tool_args\": {\n                \"type\": \"bar\",\n                \"title\": \"Total Sales by Category (Grouped by City)\",\n                \"x_title\": \"Categories\",\n                \"y_title\": \"Total Sales\",\n                \"group_by\": \"City\"\n            }\n        },\n        {\n            \"tool_name\": \"view_tool\",\n            \"tool_args\": {\n                \"sort_by\": \"Category\"\n            }\n        }\n    ]\n}"
+    },
+    {
+      "id": "Q3_EN_MultiStep",
+      "ttft": 5.662088099998073,
+      "decode": 1.4295020999998087,
+      "total": 7.091590199997881,
+      "tokens": 147,
+      "tps": 102.83300738069546,
+      "valid": true,
+      "think": "(N/A Standard Mode)",
+      "output": "```json\n{\n    \"steps\": [\n        {\n            \"tool_name\": \"filter_tool\",\n            \"tool_args\": {\n                \"query_string\": \"\\\"Total\\\": {\\\"$gt\\\": 500}\"\n            }\n        },\n        {\n            \"tool_name\": \"aggregate_tool\",\n            \"tool_args\": {\n                \"by_column\": \"City\",\n                \"metric_name\": \"Total\"\n            }\n        },\n        {\n            \"tool_name\": \"view_tool\",\n            \"tool_args\": {\n                \"sort_by\": \"Total\",\n                \"ascending\": false\n            }\n        }\n    ]\n}\n```"
+    }
+  ]
+}

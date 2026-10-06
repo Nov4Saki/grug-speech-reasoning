@@ -1,0 +1,39 @@
+{
+  "model": "gemma-4-e2b-grugspeech-native",
+  "is_grug": true,
+  "results": [
+    {
+      "id": "Q1_AR_MultiStep",
+      "ttft": 4.66487749999942,
+      "decode": 1.7988507999980357,
+      "total": 6.463728299997456,
+      "tokens": 157,
+      "tps": 87.27794434100451,
+      "valid": false,
+      "think": "Goal: Filter rows where Quantity > 5, then group by Category and sum Total sales, finally sort descending.\n\n1. **Filter**: `Quantity > 5` (Done)\n2. **Aggregate**: Group by `Category`, sum `Total`.\n3. **Sort**: Sort the result by the summed total in descending order.\n\nTool: `aggregate_tool` is perfect for steps 2 and 3 combined, as it supports `by_column` and sorting (`sort_by`).",
+      "output": "<think>\nGoal: Filter rows where Quantity > 5, then group by Category and sum Total sales, finally sort descending.\n\n1. **Filter**: `Quantity > 5` (Done)\n2. **Aggregate**: Group by `Category`, sum `Total`.\n3. **Sort**: Sort the result by the summed total in descending order.\n\nTool: `aggregate_tool` is perfect for steps 2 and 3 combined, as it supports `by_column` and sorting (`sort_by`).\n</think>\n<tool_call>\n{\"name\":\"aggregate_tool\",\"arguments\":{\"by_column\":[\"Category\"],\"metrics\":[\"sum(Total)\"],\"sort_by\":[\"sum(Total)\",\"desc\"]}}\n</tool_call>"
+    },
+    {
+      "id": "Q2_EN_Chart_Grouped",
+      "ttft": 2.9420011999973212,
+      "decode": 1.1933191000061925,
+      "total": 4.135320300003514,
+      "tokens": 103,
+      "tps": 86.31387865950147,
+      "valid": false,
+      "think": "Goal: create grouped bar chart showing total sales for each category, grouped by city\n\nPlan:\n1. aggregate_tool(group_by=['Category', 'City'], metrics=['sum', 'Total']) -> get aggregated data\n2. chart_tool(data=result) -> generate visualization",
+      "output": "<think>\nGoal: create grouped bar chart showing total sales for each category, grouped by city\n\nPlan:\n1. aggregate_tool(group_by=['Category', 'City'], metrics=['sum', 'Total']) -> get aggregated data\n2. chart_tool(data=result) -> generate visualization\n</think>\n<tool_call>\n{\"name\":\"aggregate_tool\",\"arguments\":{\"group_by\":[\"Category\",\"City\"],\"metrics\":[\"sum\",\"Total\"]}}\n</tool_call>"
+    },
+    {
+      "id": "Q3_EN_MultiStep",
+      "ttft": 4.0407099000003655,
+      "decode": 3.5212029999966035,
+      "total": 7.561912899996969,
+      "tokens": 307,
+      "tps": 87.18611224638174,
+      "valid": true,
+      "think": "Goal: filter orders with total > 500, group by city, sum totals, sort descending.\n\n1.  **Filter**: `Total > 500`.\n2.  **Group/Aggregate**: Group by `City`, calculate `sum(Total)`.\n3.  **Sort**: Sort the result by the summed total (descending).\n\n*   `filter_tool`: `Total > 500`\n*   `aggregate_tool`: `group_by: City, sum_of: Total`\n*   `view_tool`: `sort_by: sum_of: Total, ascending: false`",
+      "output": "<think>\nGoal: filter orders with total > 500, group by city, sum totals, sort descending.\n\n1.  **Filter**: `Total > 500`.\n2.  **Group/Aggregate**: Group by `City`, calculate `sum(Total)`.\n3.  **Sort**: Sort the result by the summed total (descending).\n\n*   `filter_tool`: `Total > 500`\n*   `aggregate_tool`: `group_by: City, sum_of: Total`\n*   `view_tool`: `sort_by: sum_of: Total, ascending: false`\n</think>\n{\n    \"steps\": [\n        {\n            \"tool_name\": \"filter_tool\",\n            \"tool_args\": {\n                \"column\": \"Total\",\n                \"operator\": \">\",\n                \"value\": 500\n            }\n        },\n        {\n            \"tool_name\": \"aggregate_tool\",\n            \"tool_args\": {\n                \"group_by\": [\"City\"],\n                \"sum_of\": \"Total\"\n            }\n        },\n        {\n            \"tool_name\": \"view_tool\",\n            \"tool_args\": {\n                \"sort_by\": [\"sum_of: Total\"],\n                \"ascending\": false\n            }\n        }\n    ]\n}"
+    }
+  ]
+}

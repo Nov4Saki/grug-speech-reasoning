@@ -1,0 +1,39 @@
+{
+  "model": "qwen3.5-4b",
+  "is_grug": false,
+  "results": [
+    {
+      "id": "Q1_AR_MultiStep",
+      "ttft": 16.8866332999969,
+      "decode": 2.429881700001715,
+      "total": 19.316514999998617,
+      "tokens": 133,
+      "tps": 54.73517496753283,
+      "valid": true,
+      "think": "(N/A Standard Mode)",
+      "output": "{\n    \"steps\": [\n        {\n            \"tool_name\": \"filter_tool\",\n            \"tool_args\": {\n                \"query\": \"Quantity > 5\"\n            }\n        },\n        {\n            \"tool_name\": \"aggregate_tool\",\n            \"tool_args\": {\n                \"by_column\": \"Category\",\n                \"metric\": \"Total\"\n            }\n        },\n        {\n            \"tool_name\": \"view_tool\",\n            \"tool_args\": {\n                \"sort_by\": \"Total\",\n                \"ascending\": false\n            }\n        }\n    ]\n}"
+    },
+    {
+      "id": "Q2_EN_Chart_Grouped",
+      "ttft": 13.863463399997272,
+      "decode": 2.3991282999995747,
+      "total": 16.262591699996847,
+      "tokens": 125,
+      "tps": 52.10225730738208,
+      "valid": true,
+      "think": "(N/A Standard Mode)",
+      "output": "```json\n{\n    \"steps\": [\n        {\n            \"tool_name\": \"aggregate_tool\",\n            \"tool_args\": {\n                \"metric\": \"Total\",\n                \"by_column\": [\"Category\", \"City\"]\n            }\n        },\n        {\n            \"tool_name\": \"chart_tool\",\n            \"tool_args\": {\n                \"chart_type\": \"bar\",\n                \"x_column\": \"Category\",\n                \"y_column\": \"Total\",\n                \"group_by\": \"City\"\n            }\n        }\n    ]\n}\n```"
+    },
+    {
+      "id": "Q3_EN_MultiStep",
+      "ttft": 23.425011999999697,
+      "decode": 3.5237380000035046,
+      "total": 26.9487500000032,
+      "tokens": 144,
+      "tps": 40.865694327971255,
+      "valid": true,
+      "think": "(N/A Standard Mode)",
+      "output": "{\n    \"steps\": [\n        {\n            \"tool_name\": \"filter_tool\",\n            \"tool_args\": {\n                \"query\": \"Total > 500\"\n            }\n        },\n        {\n            \"tool_name\": \"aggregate_tool\",\n            \"tool_args\": {\n                \"group_by_column\": \"City\",\n                \"metric\": \"Total\",\n                \"operation\": \"sum\"\n            }\n        },\n        {\n            \"tool_name\": \"view_tool\",\n            \"tool_args\": {\n                \"sort_by\": \"Total\",\n                \"ascending\": false\n            }\n        }\n    ]\n}"
+    }
+  ]
+}

@@ -4,7 +4,16 @@
 [![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Novasaki-orange)](https://huggingface.co/Novasaki)
 [![Models: GGUF](https://img.shields.io/badge/Quantization-Q8__0%20%7C%20Q4__K__M-blue)](https://huggingface.co/Novasaki)
 
-An end-to-end framework to compress long-form Chain-of-Thought (CoT) reasoning into ultra-terse, telegraphic **"Grug Speech"** internal monologue (inspired by OpenAI GPT-5.6 *Sol* / *Terra* reasoning traces). Evaluated across **Alibaba Qwen 3.5** and **Google Gemma 4** model families.
+An end-to-end framework to compress long-form Chain-of-Thought (CoT) reasoning into ultra-terse, telegraphic **"Grug Speech"** internal monologue (inspired by OpenAI GPT-5.6 *Sol* / *Terra* reasoning traces). Evaluated across **DeepSeek-R1-7B**, **Alibaba Qwen 3.5**, **Google Gemma 4**, and **SmolLM2-1.7B** model families.
+
+---
+
+## 📑 Master Technical Report & Comprehensive Evaluation Archive
+
+* 📄 **[Full 1,000+ Line Plain Text Technical Report](FULL_TECHNICAL_REPORT_GRUG_SPEECH_REASONING.txt)**: Comprehensive 1,244-line archival investigation covering academic sources, mathematical formulations (EBFT loss, token economy), 1,800-task head-to-head scorecards, verbatim traces, and reproduction guides.
+* 📊 **[1,800-Task Benchmark Results](evaluation/large_scale_300_benchmark_results.json)**: Complete evaluations across 100 HumanEval, 100 GSM8K, and 100 Glaive AI tasks across 4 model families.
+* 📈 **[CSV Analysis Agent Evaluation (Gemma 4 12B)](csv_analysis_agent/)**: Production LangGraph CSV data agent benchmark on `sales.xlsx` (100,300 rows).
+* 🛠️ **[Pi Agent / Oh My Pi Scratch Project Benchmark](pi_agent_benchmark/)**: Minimalist terminal agent experiment (`read`, `write`, `edit`, `bash`) comparing Normal Discursive Monologue vs Grug Invariant Scaffolding on building an Event Analytics Service from scratch.
 
 ---
 
