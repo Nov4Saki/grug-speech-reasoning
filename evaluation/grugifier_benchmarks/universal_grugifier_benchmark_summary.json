@@ -1,0 +1,140 @@
+{
+  "total_validation_samples": 1100,
+  "syntactic_tag_compliance_pct": 100.0,
+  "mean_raw_trajectory_energy": 33.13,
+  "mean_grug_trajectory_energy": 11.54,
+  "net_trajectory_energy_reduction_pct": 65.17,
+  "mean_token_compression_ratio": 2.13,
+  "domains_evaluated": 10,
+  "model_families_evaluated": 11,
+  "domain_breakdown": {
+    "coding": {
+      "count": 129,
+      "avg_compression": 2.75,
+      "avg_energy_reduction_pct": 74.1,
+      "tag_compliance_pct": 100.0
+    },
+    "roleplay": {
+      "count": 106,
+      "avg_compression": 1.33,
+      "avg_energy_reduction_pct": 53.2,
+      "tag_compliance_pct": 100.0
+    },
+    "acting": {
+      "count": 106,
+      "avg_compression": 1.0,
+      "avg_energy_reduction_pct": 40.9,
+      "tag_compliance_pct": 100.0
+    },
+    "novel_writing": {
+      "count": 105,
+      "avg_compression": 1.36,
+      "avg_energy_reduction_pct": 54.4,
+      "tag_compliance_pct": 100.0
+    },
+    "tool_use": {
+      "count": 98,
+      "avg_compression": 2.64,
+      "avg_energy_reduction_pct": 73.4,
+      "tag_compliance_pct": 100.0
+    },
+    "multilingual_dialects": {
+      "count": 114,
+      "avg_compression": 1.63,
+      "avg_energy_reduction_pct": 61.1,
+      "tag_compliance_pct": 100.0
+    },
+    "mathematics": {
+      "count": 114,
+      "avg_compression": 3.19,
+      "avg_energy_reduction_pct": 76.0,
+      "tag_compliance_pct": 100.0
+    },
+    "science_logic": {
+      "count": 102,
+      "avg_compression": 2.43,
+      "avg_energy_reduction_pct": 72.1,
+      "tag_compliance_pct": 100.0
+    },
+    "enterprise_systems": {
+      "count": 114,
+      "avg_compression": 2.37,
+      "avg_energy_reduction_pct": 71.9,
+      "tag_compliance_pct": 100.0
+    },
+    "cyber_devops": {
+      "count": 112,
+      "avg_compression": 2.43,
+      "avg_energy_reduction_pct": 72.5,
+      "tag_compliance_pct": 100.0
+    }
+  },
+  "model_breakdown": {
+    "gemma-2-2b": {
+      "count": 86,
+      "avg_compression": 2.13,
+      "avg_energy_reduction_pct": 65.2,
+      "template_dispatch_accuracy_pct": 100.0
+    },
+    "gemma-2-9b": {
+      "count": 92,
+      "avg_compression": 2.21,
+      "avg_energy_reduction_pct": 66.0,
+      "template_dispatch_accuracy_pct": 100.0
+    },
+    "gemma-4-e2b": {
+      "count": 94,
+      "avg_compression": 2.1,
+      "avg_energy_reduction_pct": 64.3,
+      "template_dispatch_accuracy_pct": 100.0
+    },
+    "qwen-3.5-2b": {
+      "count": 103,
+      "avg_compression": 2.2,
+      "avg_energy_reduction_pct": 66.3,
+      "template_dispatch_accuracy_pct": 100.0
+    },
+    "qwen-3.5-4b": {
+      "count": 109,
+      "avg_compression": 2.19,
+      "avg_energy_reduction_pct": 66.7,
+      "template_dispatch_accuracy_pct": 100.0
+    },
+    "qwen-3.8-27b": {
+      "count": 101,
+      "avg_compression": 2.06,
+      "avg_energy_reduction_pct": 64.4,
+      "template_dispatch_accuracy_pct": 100.0
+    },
+    "nanbeige-4.2-3b": {
+      "count": 98,
+      "avg_compression": 2.08,
+      "avg_energy_reduction_pct": 64.6,
+      "template_dispatch_accuracy_pct": 100.0
+    },
+    "minicpm-5-2b": {
+      "count": 95,
+      "avg_compression": 2.06,
+      "avg_energy_reduction_pct": 64.6,
+      "template_dispatch_accuracy_pct": 100.0
+    },
+    "lfm-3b": {
+      "count": 100,
+      "avg_compression": 2.12,
+      "avg_energy_reduction_pct": 64.4,
+      "template_dispatch_accuracy_pct": 100.0
+    },
+    "lfm-7b": {
+      "count": 107,
+      "avg_compression": 2.19,
+      "avg_energy_reduction_pct": 66.3,
+      "template_dispatch_accuracy_pct": 100.0
+    },
+    "lfm-40b": {
+      "count": 115,
+      "avg_compression": 2.07,
+      "avg_energy_reduction_pct": 64.6,
+      "template_dispatch_accuracy_pct": 100.0
+    }
+  }
+}
