@@ -1,0 +1,104 @@
+{
+  "model": "google/gemma-4-12B-it",
+  "benchmark_date": "2026-10-06",
+  "modes": {
+    "Normal (Direct JSON)": {
+      "results": [
+        {
+          "id": "Q1_AR_MultiStep",
+          "name": "Arabic Multi-step (Filter + Group + Sort)",
+          "query": "فلتر الصفوف اللي فيها الكمية أكبر من 5، وبعدين احسب مجموع المبيعات لكل فئة، وترتيب النتيجة من الأعلى للأقل",
+          "total_time_sec": 54.86,
+          "tokens": 400,
+          "tps": 7.3,
+          "valid_plan": false,
+          "executed_on_data": false,
+          "think_trace": "",
+          "plan": null,
+          "execution_details": "No JSON steps found in generation",
+          "raw_output": ",\nفلتر الصفوف الصفوف الصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصف,\nفل,\nفل,\nفل,\nفل,\n_\n_\n_\n_\n_\n_\n_1001\n100_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0,\n_0_0_0_0_00_0_0_0__00_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0__0_00_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_00_0_0_0_0_0_0_0_0_0_0_0_0_0__0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_0_"
+        },
+        {
+          "id": "Q2_EN_Chart_Grouped",
+          "name": "English Visualization (Grouped Bar Chart)",
+          "query": "create a grouped bar chart showing total sales for each category, grouped by city",
+          "total_time_sec": 53.88,
+          "tokens": 400,
+          "tps": 7.4,
+          "valid_plan": false,
+          "executed_on_data": false,
+          "think_trace": "",
+          "plan": null,
+          "execution_details": "No JSON steps found in generation",
+          "raw_output": ".\n    Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n_Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis,\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query,\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    -_Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    -,\n    - Query Analysis:\n    -_Query Analysis:\n    - Query Analysis:\n    - Query_Analysis:\n    - Query Analysis:\n    - Query Analysis:\n_    Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:\n    - Query Analysis:"
+        },
+        {
+          "id": "Q3_EN_MultiStep",
+          "name": "English Multi-step (Filter + Group + Sort)",
+          "query": "Filter rows where Total is greater than 500, then group by City and show the sum of Total for each city, sorted from highest to lowest",
+          "total_time_sec": 53.89,
+          "tokens": 400,
+          "tps": 7.4,
+          "valid_plan": false,
+          "executed_on_data": false,
+          "think_trace": "",
+          "plan": null,
+          "execution_details": "JSON parse error: Expecting value: line 4 column 5 (char 22)",
+          "raw_output": "-city.\nUser Query: Filter rows where Total is greater than 0, Total, Total, Total, Total, Total, Total, Total, Total,\n JSON object matching this schema:\n{\n    \"steps\": [\n\n    ,\n    ,\n    ,\n    ,\n    ,\n    ,\n    ,\n    ,\n    ,\n    ,\n    ,\n    ,\n    ,\n    ,\n    ,\n    ,\n    ,\n    ,\n    ,\n    ,\n    ,\n,\n    ,\n    ,\n    ,\n,\n    ,\n,\n    ,\n,\n    ,\n,\n    ,\n,\n    ,\n,\n    ,\n,\n    ,\n,\n    ,\n,\n    ,\n,\n,\n,\n,\n,\n,\n,\n\n,\n,\n,,\n,,\n,,\n,,\n,,\n,,\n,,\n,,\n,,\n,,\n,,\n,,\n,,\n,,\n,,,\n,,,,,,\n,,,,,,\n,,,,,,\n,,,,,,\n,,,,,,\n,,,,,,\n,,,,,,\n,,,,,,\n,,,,,,\n,,,,,,\n,,,,,,\n,,,,,,\n,,,,,,\n,,,,,,\n\n}\n}\n}\n}\n}\n}\n}\n}\n}\n}\n}\n}\n}\n}\n}\n}\n}\n}\n}\n}\n}\n}\n}\n}\n}\n}\n}\n}\n}\n}\n}\n}\n}"
+        }
+      ],
+      "pass_rate_pct": 0.0,
+      "avg_latency_sec": 54.21,
+      "avg_tokens": 400.0
+    },
+    "Grugified (Grug Speech)": {
+      "results": [
+        {
+          "id": "Q1_AR_MultiStep",
+          "name": "Arabic Multi-step (Filter + Group + Sort)",
+          "query": "فلتر الصفوف اللي فيها الكمية أكبر من 5، وبعدين احسب مجموع المبيعات لكل فئة، وترتيب النتيجة من الأعلى للأقل",
+          "total_time_sec": 53.74,
+          "tokens": 400,
+          "tps": 7.4,
+          "valid_plan": false,
+          "executed_on_data": false,
+          "think_trace": "",
+          "plan": null,
+          "execution_details": "No JSON steps found in generation",
+          "raw_output": "أ\nUser Query: فلتر الصفوف الصفوف الصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصف,\nUser Query: فلتر الصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصفصف,\nUser Query: فل_"
+        },
+        {
+          "id": "Q2_EN_Chart_Grouped",
+          "name": "English Visualization (Grouped Bar Chart)",
+          "query": "create a grouped bar chart showing total sales for each category, grouped by city",
+          "total_time_sec": 53.67,
+          "tokens": 400,
+          "tps": 7.5,
+          "valid_plan": false,
+          "executed_on_data": false,
+          "think_trace": "",
+          "plan": null,
+          "execution_details": "No JSON steps found in generation",
+          "raw_output": ".\nUser Query: create a grouped bar chart showing total sales for each category, grouped by city.\nUser Query: create a grouped bar chart showing total sales for_category, grouped by city.\nUser Query: create a grouped bar chart showing total sales for each category, grouped by city.\nUser Query: create a grouped bar chart showing total sales for each category, grouped by city.\nUser Query: create a grouped bar chart showing total sales for each category, grouped by city.\nUser Query: create a grouped bar chart showing total sales for each category, grouped by city.\nUser Query: create a grouped bar chart showing total sales for each_category, grouped bycity.\nUser Query: create a grouped bar chart showing total sales for each category, grouped by city.\nUser Query: create a grouped bar chart showing total sales for each category, grouped by city.\nUser Query: create a grouped bar chart showing total sales for each category, grouped by city.\nUser Query: create a grouped bar chart showing total sales for each category, grouped by city.\nUser Query: create a grouped bar chart showing total sales for each category, grouped by city.\nUser Query: create, grouped by city.\nUser Query: create a grouped bar chart showing total sales for each category, grouped by city.\nUser Query: create a grouped bar chart showing total sales for eachcategory, grouped by city.\nUser Query: create a grouped bar chart showing total sales for each category, grouped by city.\nUser Query: create a grouped bar chart showing total sales for each category,, grouped by city.\nUser Query: create a grouped bar chart showing total sales for each category, grouped by city.\nUser Query: create a grouped bar chart showing total sales for each category, grouped by city.\nUser Query: create a grouped bar chart showing total sales for each category, grouped by city.\nUser Query: create a grouped"
+        },
+        {
+          "id": "Q3_EN_MultiStep",
+          "name": "English Multi-step (Filter + Group + Sort)",
+          "query": "Filter rows where Total is greater than 500, then group by City and show the sum of Total for each city, sorted from highest to lowest",
+          "total_time_sec": 53.34,
+          "tokens": 400,
+          "tps": 7.5,
+          "valid_plan": false,
+          "executed_on_data": false,
+          "think_trace": "",
+          "plan": null,
+          "execution_details": "No JSON steps found in generation",
+          "raw_output": ".\nUser Query: Filter rows where Total is greater than 0, then group by City and show the sum of Total for each city, sorted from highest to lowest.\nUser Query: Filter rows where Total is greater than 0, then group by City and show the sum of Total for each city, sorted from highest to lowest.\nUser Query: Filter rows where Total is greater than 0, then group by City and show the sum of Total for each city, sortedために\nthought\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n."
+        }
+      ],
+      "pass_rate_pct": 0.0,
+      "avg_latency_sec": 53.58,
+      "avg_tokens": 400.0
+    }
+  }
+}
