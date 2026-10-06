@@ -1,0 +1,19 @@
+{
+  "dataset_name": "Scaled-Multi-Field-Grug-Reasoning",
+  "total_samples": 2128,
+  "train_samples": 1916,
+  "val_samples": 212,
+  "domains": [
+    "math_logic",
+    "tool_use",
+    "science_logic",
+    "coding",
+    "robustness"
+  ],
+  "prompt_levels": [
+    "low",
+    "medium",
+    "high"
+  ],
+  "syntax": "<think>Goal -> Steps -> Answer -> Done.</think>"
+}

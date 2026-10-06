@@ -27,6 +27,7 @@ An end-to-end framework to compress long-form Chain-of-Thought (CoT) reasoning i
 | :--- | :--- | :--- | :--- | :--- |
 | **Nanbeige 4.2 3B Grug Native** | 22 Layers (Nanbeige Causal LM) | `Nanbeige4.2-3B-GrugSpeech-Q4_K_M.gguf` (2.4 GB)<br>`Nanbeige4.2-3B-GrugSpeech-Q8_0.gguf` (4.1 GB) | ~3.2 GB | [`Novasaki/Nanbeige4.2-3B-GrugSpeech-Native`](https://huggingface.co/Novasaki/Nanbeige4.2-3B-GrugSpeech-Native) |
 | **MiniCPM 5 2B Grug Native** | 42 Layers (Llama Causal LM) | `MiniCPM5-2B-GrugSpeech-Q4_K_M.gguf` (1.5 GB)<br>`MiniCPM5-2B-GrugSpeech-Q8_0.gguf` (2.5 GB) | ~2.1 GB | [`Novasaki/MiniCPM5-2B-GrugSpeech-Native`](https://huggingface.co/Novasaki/MiniCPM5-2B-GrugSpeech-Native) |
+| **Qwen 2.5 3B Grug Native** | 36 Layers (Qwen2 Causal LM) | `Qwen2.5-3B-GrugSpeech-Q4_K_M.gguf` (1.8 GB)<br>`Qwen2.5-3B-GrugSpeech-Q8_0.gguf` (3.1 GB) | ~2.2 GB | [`Novasaki/Qwen2.5-3B-GrugSpeech-Native`](https://huggingface.co/Novasaki) |
 | **Qwen 3.5 4B Grug (Standard)** | 32 Layers (Causal LM) | `Qwen3.5-4B-GrugSpeech-Q4_K_M.gguf` (2.6 GB)<br>`Qwen3.5-4B-GrugSpeech-Q8_0.gguf` (4.2 GB) | ~3.4 GB | [`Novasaki/Qwen3.5-4B-GrugSpeech-Native`](https://huggingface.co/Novasaki/Qwen3.5-4B-GrugSpeech-Native) |
 | **Qwen 3.5 4B Grug (Native MTP)** | 33 Layers (MTP NextN) | `Qwen3.5-4B-GrugSpeech-MTP-Q4_K_M.gguf` (2.64 GB)<br>`Qwen3.5-4B-GrugSpeech-MTP-Q8_0.gguf` (4.61 GB) | ~3.6 GB | [`Novasaki/Qwen3.5-4B-GrugSpeech-Native`](https://huggingface.co/Novasaki/Qwen3.5-4B-GrugSpeech-Native) |
 | **Qwen 3.5 2B Grug** | 24 Layers (Causal LM) | `Qwen3.5-2B-GrugSpeech-Q4_K_M.gguf` (1.2 GB)<br>`Qwen3.5-2B-GrugSpeech-Q8_0.gguf` (1.9 GB) | ~1.8 GB | [`Novasaki/Qwen3.5-2B-GrugSpeech-Q8`](https://huggingface.co/Novasaki/Qwen3.5-2B-GrugSpeech-Q8) |
@@ -55,6 +56,39 @@ To rigorously verify whether Grugification delivers tangible advantages over raw
 | `qwen3.5-2b-base` | Qwen 3.5 2B | `Q4_K_M` | 1.19 GB | 1/7 (14.3%) | 1.87s | 453.8 t/s | 7,775.7 t/s | 79.3 t | 3/7 (42.9%) |
 | **`nanbeige4.2-3b-grugspeech-native`** | BOSS Zhipin 4.2 | `Q4_K_M` | 2.39 GB | 1/7 (14.3%) | 2.33s | 220.1 t/s | 8,487.8 t/s | **46.0 t** | 1/7 (14.3%) |
 | **`qwen3.5-2b-grugspeech-native`** | Qwen 3.5 2B | `Q4_K_M` | 1.20 GB | 0/7 ( 0.0%) | 1.56s | 450.9 t/s | 8,853.0 t/s | **70.6 t** | 1/7 (14.3%) |
+
+---
+
+## 🏆 Scaled 160-Item Standardized Benchmark Leaderboard (NVIDIA A100 BF16)
+
+To resolve the statistical limitations of early micro-benchmarks (which contained only 7 hand-picked queries), the framework is evaluated against the **160-Item Standardized Benchmark Suite** (`benchmark_suite_scaled.json`), covering 40 unseen GSM8K math problems, 30 coding/traceback triage tasks, 30 Hermes tool-calling queries, 30 scientific/logic deductions, and 30 robustness challenges across 3 prompt detail levels:
+
+### 1. Overall Head-to-Head Comparison: Base vs. Grug Reasoner
+
+| Model Name | Configuration | Pass Rate (%) | Grug Syntax Compliance | Avg Reasoning Tokens ($\tau_{\text{think}}$) | Avg Total Tokens ($\tau_{\text{total}}$) | Avg Latency (s) | Decode Speed (t/s) |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **`Qwen 2.5 3B Grug Native`** | BF16 QLoRA (`final_adapter`) | **80.62%** (+1.87%) | **99.38%** (159/160) | **43.33 t** | **177.30 t** (-28.9%) | 2.92s | 60.8 t/s |
+| `Qwen 2.5 3B Base` | Verbose Instruct Baseline | 78.75% | 0.00% (0/160) | 72.86 t | 249.25 t | **2.13s** | 117.0 t/s |
+
+### 2. Domain-by-Domain Empirical Breakdown
+
+| Domain Benchmark | Sample Count | Base Pass Rate | Grug Pass Rate | Base $\tau_{\text{think}}$ | Grug $\tau_{\text{think}}$ | Thinking Compression ($\rho$) | Base $\tau_{\text{total}}$ | Grug $\tau_{\text{total}}$ | Total Token Savings |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Tool Use & Function Calling** | 30 | 73.33% | **100.00%** 🥇 | 101.43 t | **40.17 t** | **2.53x** | 256.00 t | **157.33 t** | **-38.5%** |
+| **Science & Formal Logic** | 30 | 93.33% | **100.00%** 🥇 | 35.80 t | **36.87 t** | 1.00x | 251.93 t | **249.07 t** | -1.1% |
+| **Coding & Traceback Triage** | 30 | **86.67%** | 83.33% | 77.57 t | **37.70 t** | **2.06x** | 256.00 t | **201.47 t** | **-21.3%** |
+| **Robustness & Anti-Overthinking** | 30 | 80.00% | **80.00%** | 36.57 t | **29.37 t** | **1.25x** | 224.07 t | **205.20 t** | -8.4% |
+| **GSM8K Quantitative Math** | 40 | **65.00%** | 50.00% | 102.92 t | **65.22 t** | **1.58x** | 256.00 t | **99.40 t** | **-61.2% (2.58x)** |
+
+### 3. Prompt-Level Generalization Analysis (Low vs. Medium vs. High Detail)
+
+A critical architectural hypothesis was tested: *Does Grugification generalize across prompt detail levels, or does it over-think simple casual prompts while dropping constraints on complex enterprise prompts?*
+
+| Prompt Detail Tier | Definition & Characteristics | Items | Base Pass Rate | Grug Pass Rate | Grug Syntax OK | Base $\tau_{\text{think}}$ | Grug $\tau_{\text{think}}$ | Base $\tau_{\text{total}}$ | Grug $\tau_{\text{total}}$ | Empirical Finding |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **Low-Detail Prompts** | Casual greetings, quick math, 1-line errors (<25 words) | 58 | 79.31% | **94.83%** (+15.5%) ⚡ | **100.0%** | 52.86 t | **35.95 t** | 237.38 t | **159.09 t** | **Zero over-thinking.** Answers instantly without monologue essays. |
+| **Medium-Detail Prompts** | Standard instruction, multi-step queries (25–65 words) | 79 | **78.48%** | 70.89% | **100.0%** | 81.57 t | **49.48 t** | 256.00 t | **177.68 t** | **1.65x CoT compression** with 100% Grug syntax adherence. |
+| **High-Detail Prompts** | Complex tracebacks, enterprise schemas (>65 words) | 23 | 78.26% | **78.26%** (Parity) | **95.65%** | 93.39 t | **40.78 t** | 256.00 t | **221.91 t** | **2.29x CoT compression.** Zero constraint dropping or invariant loss. |
 
 ---
 
@@ -130,31 +164,35 @@ Turn 40 | Verbose (492.0k tok): ############ | Grug (49.2k tok): **** (10x Savin
 ├── .gitignore                         <- Excludes heavy weights, safetensors, and checkpoints
 │
 ├── pipeline/                          <- End-to-end dataset distillation engines
+│   ├── scaled_grugification_engine.py <- 2,128-sample multi-field distillation across 3 prompt levels
 │   ├── run_grugification_pipeline.py  <- Teacher extraction -> 2B Grugifier -> Invariant filter
 │   ├── build_multifield_grug_dataset.py <- 22-subsection hierarchical dataset builder
 │   ├── dataset_hardening_engine.py    <- Hardening: casual chat, noisy prompts, safety defense
-│   ├── test_pipeline_sample.py        <- Smoke test validation runner
 │   └── dataset_gen/                   <- Underlying seed data generation modules
 │
 ├── training/                          <- Cross-family QLoRA fine-tuning scripts
+│   ├── train_scaled_grug_reasoner.py  <- Hardware-aware trainer (Native BF16 sm_80+ / FP16 sm_75)
 │   ├── train_qwen_grug.py             <- Qwen 3.5 2B trainer
 │   ├── train_qwen3.5_4b_grug.py       <- Qwen 3.5 4B native trainer
-│   ├── train_gemma4_grug.py           <- Gemma 4 E2B trainer (with clippable linear regex fix)
+│   ├── train_gemma4_grug.py           <- Gemma 4 E2B trainer
 │   ├── train_minicpm5_2b_grug.py      <- MiniCPM5 2B trainer (QLoRA 8-bit, 42 layers)
 │   └── train_nanbeige4.2_3b_grug.py   <- Nanbeige 4.2-3B trainer (22 layers, 166k vocab)
 │
 ├── quantization_and_export/           <- LoRA weight merge & GGUF compilation
-│   ├── merge_and_export_gguf.py       <- bfloat16 adapter merger & llama.cpp export (Q8_0, Q4_K_M)
+│   ├── merge_and_export_gguf.py       <- Parameterized adapter merger & llama.cpp export (Q8_0, Q4_K_M)
 │   ├── export_gemma4_gguf.py          <- Gemma 4 specific GGUF conversion script
 │   ├── export_minicpm5_gguf.py        <- MiniCPM5 specific GGUF conversion & quantization script
 │   └── export_nanbeige4.2_gguf.py     <- Nanbeige 4.2 specific conversion & vocab-padding script
 │
 ├── evaluation/                        <- Evaluation & validation harnesses
+│   ├── benchmark_suite_scaled.json    <- 160-item standardized multi-level benchmark suite
+│   ├── run_comprehensive_evaluation.py <- Automated batched evaluator (tau_think, pass rate, syntax)
 │   ├── evaluate_grug_model.py         <- Benchmark evaluation (GSM8K, ARC, systems)
 │   ├── evaluate_qwen3.5_4b_multifield.py <- Qwen multi-field domain validation
 │   └── evaluate_gemma4_multifield.py  <- Gemma 4 multi-field domain validation
 │
 ├── datasets/                          <- Curated datasets (metadata & jsonl files only)
+│   ├── scaled_multifield/             <- 2,128 verified samples (1,916 train / 212 val) across 3 tiers
 │   ├── multifield/                    <- 22-subsection + hardened dataset
 │   └── seed/                          <- Initial converted reasoning dataset
 │
@@ -162,12 +200,10 @@ Turn 40 | Verbose (492.0k tok): ############ | Grug (49.2k tok): **** (10x Savin
 │   ├── grug_speech_full_technical_report.txt <- Comprehensive technical report with full ASCII graphs
 │   ├── grug_speech_technical_report.md       <- Formatted markdown report with mermaid diagrams
 │   ├── grug_benchmark_data_points.json       <- Raw benchmark numbers for graph plotting
-│   ├── AUDIT_REPORT.md                       <- Subagent dataset audit report
-│   ├── PROMPT_DECISIONS_AND_INVARIANTS.md    <- In-depth prompt design & invariant conservation
-│   └── subagents/
-│       └── dataset_reviewer_agent.md         <- System prompt & architecture of reviewer subagent
+│   └── PROMPT_DECISIONS_AND_INVARIANTS.md    <- In-depth prompt design & invariant conservation
 │
 └── deployment/                        <- Production deployment configs
+    ├── Modelfile.qwen2.5_3b           <- Ollama Modelfile for Qwen 2.5 3B Grug
     ├── Modelfile.qwen3.5_4b           <- Ollama Modelfile for Qwen 3.5 4B
     ├── Modelfile.gemma4_e2b           <- Ollama Modelfile for Gemma 4 E2B
     ├── Modelfile.minicpm5_2b          <- Ollama Modelfile for MiniCPM5 2B

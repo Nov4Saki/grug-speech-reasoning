@@ -1,0 +1,69 @@
+{
+  "model_id": "Qwen/Qwen2.5-3B-Instruct",
+  "is_grug": false,
+  "adapter_dir": null,
+  "total_test_cases": 160,
+  "overall_metrics": {
+    "pass_rate_pct": 78.75,
+    "grug_syntax_compliance_pct": 0.0,
+    "avg_reasoning_tokens_tau_think": 72.86,
+    "avg_total_tokens_tau_total": 249.25,
+    "avg_latency_seconds": 2.13,
+    "generation_throughput_tok_per_sec": 117.0
+  },
+  "category_breakdown": {
+    "math": {
+      "total": 40,
+      "pass_rate_pct": 65.0,
+      "avg_think_tokens": 102.92,
+      "avg_total_tokens": 256.0
+    },
+    "tool_use": {
+      "total": 30,
+      "pass_rate_pct": 73.33,
+      "avg_think_tokens": 101.43,
+      "avg_total_tokens": 256.0
+    },
+    "coding": {
+      "total": 30,
+      "pass_rate_pct": 86.67,
+      "avg_think_tokens": 77.57,
+      "avg_total_tokens": 256.0
+    },
+    "science_logic": {
+      "total": 30,
+      "pass_rate_pct": 93.33,
+      "avg_think_tokens": 35.8,
+      "avg_total_tokens": 251.93
+    },
+    "robustness": {
+      "total": 30,
+      "pass_rate_pct": 80.0,
+      "avg_think_tokens": 36.57,
+      "avg_total_tokens": 224.07
+    }
+  },
+  "prompt_level_breakdown": {
+    "medium": {
+      "total": 79,
+      "pass_rate_pct": 78.48,
+      "syntax_compliance_pct": 0.0,
+      "avg_think_tokens": 81.57,
+      "avg_total_tokens": 256.0
+    },
+    "low": {
+      "total": 58,
+      "pass_rate_pct": 79.31,
+      "syntax_compliance_pct": 0.0,
+      "avg_think_tokens": 52.86,
+      "avg_total_tokens": 237.38
+    },
+    "high": {
+      "total": 23,
+      "pass_rate_pct": 78.26,
+      "syntax_compliance_pct": 0.0,
+      "avg_think_tokens": 93.39,
+      "avg_total_tokens": 256.0
+    }
+  }
+}
